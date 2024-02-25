@@ -1,13 +1,26 @@
+import "express-async-errors";
 import express, { NextFunction, Request, Response } from "express";
-const app = express();
+import dotenv from "dotenv";
+dotenv.config();
 //router
 import { router } from "./routes/";
 import { AppError } from "@shared/errors/AppError";
+
+//container
+import "@shared/Container/containers";
+
+//to celebrate
+import { errors } from "celebrate";
+
+const app = express();
 
 //traffic messages
 app.use(express.json());
 //define router
 app.use(router);
+
+//case celebrate detected some error
+app.use(errors());
 
 //middleware to class AppError.
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
@@ -21,6 +34,8 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
    }
 
    //case server error
+   console.log(error);
+
    return res.status(500).json({
       status: "error",
       message: "Internal server error",
