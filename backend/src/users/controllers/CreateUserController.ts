@@ -1,6 +1,7 @@
+import { container } from "tsyringe";
 import { CreateUserUseCase } from "@users/useCases/CreateUserUseCase";
 import { Request, Response } from "express";
-import { container } from "tsyringe";
+import { instanceToInstance } from "class-transformer";
 
 export class CreateUserController {
    async handle(req: Request, res: Response): Promise<Response> {
@@ -16,7 +17,7 @@ export class CreateUserController {
       });
       return res.status(201).json({
          message: "New user created.",
-         user,
+         user: instanceToInstance(user),
          accessToken,
          refreshToken,
       });
