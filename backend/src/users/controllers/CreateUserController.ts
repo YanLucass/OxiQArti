@@ -8,7 +8,7 @@ export class CreateUserController {
       const { name, email, password, likes } = req.body;
 
       //get user and accessToken from service
-      const { user, accessToken } = await createUserUseCase.execute({
+      const { user, accessToken, refreshToken } = await createUserUseCase.execute({
          name,
          email,
          likes,
@@ -18,6 +18,7 @@ export class CreateUserController {
          message: "New user created.",
          user,
          accessToken,
+         refreshToken,
       });
    }
 }

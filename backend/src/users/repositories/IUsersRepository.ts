@@ -9,5 +9,6 @@ export type CreateUserDTO = {
 
 export interface IUsersRepository {
    createUser({ name, email, password, likes }: CreateUserDTO): Promise<User>;
-   findUserByEmail(email: string): Promise<User>;
+   findUserByEmail(email: string): Promise<User | null>;
+   findUserById(id: string): Promise<User | null>;
 }

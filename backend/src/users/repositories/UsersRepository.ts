@@ -11,12 +11,19 @@ export class UsersRepository implements IUsersRepository {
       this.usersRepository = PostgresDataSource.getRepository(User);
    }
 
+   //create user
    async createUser({ name, email, likes, password }: CreateUserDTO): Promise<User> {
       const user = await this.usersRepository.create({ name, email, password, likes });
       return this.usersRepository.save(user);
    }
 
-   async findUserByEmail(email): Promise<User> {
+   //findByEmail
+   async findUserByEmail(email: string): Promise<User | null> {
       return this.usersRepository.findOneBy({ email });
+   }
+
+   //findById
+   findUserById(id: string): Promise<User | null> {
+      return this.usersRepository.findOneBy({ id: id });
    }
 }

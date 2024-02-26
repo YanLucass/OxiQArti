@@ -12,6 +12,7 @@ import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTo
 type CreateUserResponse = {
    user: User;
    accessToken: string;
+   refreshToken: string;
 };
 
 @injectable()
@@ -51,6 +52,7 @@ export class CreateUserUseCase {
       return {
          user,
          accessToken,
+         refreshToken,
       };
    }
 }
