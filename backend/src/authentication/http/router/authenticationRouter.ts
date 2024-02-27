@@ -5,12 +5,29 @@ import { Joi, Segments, celebrate } from "celebrate";
 //controllers import
 import { CreateAccessAndRefreshTokenController } from "@authentication/controllers/CreateAccessAndRefreshTokenController";
 import { addUserInfoToRequest } from "../middlewares/addUserInfoToRequest";
+import { LoginController } from "@authentication/controllers/LoginController";
 
 const authenticationRouter = Router();
 
 //controllers
 const createAccessAndRefreshTokenController = container.resolve(
    CreateAccessAndRefreshTokenController,
+);
+const loginController = container.resolve(LoginController);
+
+//login
+authenticationRouter.post(
+   "/",
+   celebrate({
+      [Segments.BODY]: Joi.object().keys({
+         email: Joi.string().email().required(),
+         password: Joi.string().required(),
+      }),
+   }),
+
+   (req, res) => {
+      return loginController.handle(req, res);
+   },
 );
 
 //router to create access token and refreshToken
