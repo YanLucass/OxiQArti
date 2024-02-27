@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateUserTable1708695151290 implements MigrationInterface {
+export class CreateArtistTable1708975074539 implements MigrationInterface {
    public async up(queryRunner: QueryRunner): Promise<void> {
       await queryRunner.createTable(
          new Table({
-            name: "users",
+            name: "artists",
             columns: [
                {
                   name: "id",
@@ -20,8 +20,26 @@ export class CreateUserTable1708695151290 implements MigrationInterface {
 
                {
                   name: "email",
-                  type: "varchar(160)",
+                  type: "varchar(180)",
+                  isUnique: true,
                   isNullable: false,
+               },
+               {
+                  name: "state",
+                  type: "varchar(30)",
+                  isNullable: false,
+               },
+
+               {
+                  name: "city",
+                  type: "varchar(30)",
+                  isNullable: false,
+               },
+
+               {
+                  name: "specialty",
+                  type: "varchar(30)",
+                  isNullable: true,
                },
 
                {
@@ -31,21 +49,9 @@ export class CreateUserTable1708695151290 implements MigrationInterface {
                },
 
                {
-                  name: "likes",
-                  type: "varchar(30)",
-                  isNullable: true,
-               },
-
-               {
                   name: "isArtist",
                   type: "boolean",
-                  default: false,
-               },
-
-               {
-                  name: "created_at",
-                  type: "timestamp",
-                  default: "CURRENT_TIMESTAMP",
+                  default: true,
                },
             ],
          }),
@@ -53,6 +59,6 @@ export class CreateUserTable1708695151290 implements MigrationInterface {
    }
 
    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.dropTable("users");
+      await queryRunner.dropTable("artists");
    }
 }

@@ -18,6 +18,9 @@ export class User {
    likes: string;
 
    @Column()
+   isArtist!: boolean;
+
+   @Column()
    @Exclude()
    password: string;
 
@@ -29,5 +32,6 @@ export class User {
       this.name = name;
       this.email = email;
       this.password = password;
+      this.isArtist = false;
    }
 }
