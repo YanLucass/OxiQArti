@@ -17,6 +17,12 @@ export class Artist {
    phone: string;
 
    @Column()
+   anotherContacts: string;
+
+   @Column()
+   url: string;
+
+   @Column()
    state: string;
 
    @Column()
@@ -32,11 +38,7 @@ export class Artist {
    @Exclude()
    password: string;
 
-   @Column()
-   isArtist!: boolean;
-
    constructor() {
       this.id = uuidv4();
-      this.isArtist = true;
    }
 }

@@ -5,16 +5,21 @@ import { Request, Response } from "express";
 
 export class CreateArtistController {
    async handle(req: Request, res: Response): Promise<Response> {
-      const { name, email, state, city, specialty, password } = req.body;
+      const { name, email, phone, anotherContacts, url, state, city, specialty, password } =
+         req.body;
       //get useCase
       const createArtistUseCase = container.resolve(CreateArtistUseCase);
 
       const { artist, accessToken, refreshToken } = await createArtistUseCase.execute({
          name,
          email,
+         phone,
+         anotherContacts,
+         url,
          state,
          city,
          specialty,
+         avatarFileName: req.file?.filename,
          password,
       });
 

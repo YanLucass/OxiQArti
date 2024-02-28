@@ -27,9 +27,21 @@ export class CreateArtistTable1708975074539 implements MigrationInterface {
 
                {
                   name: "phone",
-                  type: "varchar(12)",
+                  type: "varchar(16)",
                   isUnique: true,
                   isNullable: false,
+               },
+
+               {
+                  name: "anotherContacts",
+                  type: "varchar(50)",
+                  isNullable: true,
+               },
+
+               {
+                  name: "url",
+                  type: "varchar(255)",
+                  isNullable: true,
                },
 
                {
@@ -60,12 +72,6 @@ export class CreateArtistTable1708975074539 implements MigrationInterface {
                   name: "password",
                   type: "varchar(255)",
                   isNullable: false,
-               },
-
-               {
-                  name: "isArtist",
-                  type: "boolean",
-                  default: true,
                },
             ],
          }),

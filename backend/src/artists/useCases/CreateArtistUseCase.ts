@@ -19,9 +19,13 @@ export class CreateArtistUseCase {
    async execute({
       name,
       email,
+      phone,
+      anotherContacts,
+      url,
       state,
       city,
       specialty,
+      avatarFileName,
       password,
    }: CreateArtistDTO): Promise<IResponse> {
       //check if email already exists
@@ -30,6 +34,17 @@ export class CreateArtistUseCase {
          throw new AppError("Esse email já está em uso!", 422);
       }
 
+      //check if this phone number already registered
+      const artistPhoneNumber = await this.artistsRepository.findArtistByPhone(phone);
+      if (artistPhoneNumber) {
+         throw new AppError("Esse telefone já está vinculado a outra conta");
+      }
+
+      //validate formart phone number
+      const telefoneRegex = /^\(\d{2}\) ?(9\d{4}-\d{4}|\d{4}-\d{4})$/;
+      if (!telefoneRegex.test(phone)) {
+         throw new AppError("Por favor insira o telefone num formato válido!");
+      }
       //create password with bcrypt
       const hashedPassword = await hash(password, 12);
 
@@ -37,9 +52,13 @@ export class CreateArtistUseCase {
       const artist = await this.artistsRepository.createArtist({
          name,
          email,
+         phone,
+         anotherContacts,
+         url,
          state,
          city,
          specialty,
+         avatarFileName,
          password: hashedPassword,
       });
 

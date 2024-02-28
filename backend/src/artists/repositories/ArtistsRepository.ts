@@ -13,17 +13,25 @@ export class ArtistsRepository implements IArtistsRepository {
    async createArtist({
       name,
       email,
+      phone,
+      anotherContacts,
+      url,
       state,
       city,
       specialty,
+      avatarFileName,
       password,
    }: CreateArtistDTO): Promise<Artist> {
       const artist = await this.artistsRepository.create({
          name,
          email,
+         phone,
+         anotherContacts,
+         url,
          state,
          city,
          specialty,
+         avatar: avatarFileName,
          password,
       });
 
@@ -33,5 +41,9 @@ export class ArtistsRepository implements IArtistsRepository {
 
    findArtistByEmail(email: string): Promise<Artist | null> {
       return this.artistsRepository.findOneBy({ email });
+   }
+
+   findArtistByPhone(phone: string): Promise<Artist | null> {
+      return this.artistsRepository.findOneBy({ phone });
    }
 }

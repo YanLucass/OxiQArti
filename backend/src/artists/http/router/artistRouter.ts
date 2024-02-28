@@ -10,7 +10,6 @@ import uploadConfig from "@config/uploadImage";
 
 //import controllers
 import { CreateArtistController } from "@artists/controllers/CreateArtistController";
-import { IsAuthenticated } from "@shared/http/middlewares/IsAuthenticated";
 
 //controller instance
 const createArtistController = container.resolve(CreateArtistController);
@@ -21,7 +20,7 @@ const upload = multer(uploadConfig);
 //create new artist
 artistsRouter.post(
    "/",
-   IsAuthenticated,
+   upload.single("image"),
    celebrate({
       [Segments.BODY]: Joi.object().keys({
          name: Joi.string().required().messages({
@@ -32,6 +31,14 @@ artistsRouter.post(
             "any.required": "O email é obrigatório!",
             "string.email": "Por favor, insira um e-mail válido!",
          }),
+
+         phone: Joi.string().required().messages({
+            "any.required": "O telefone é obrigatório",
+         }),
+
+         anotherContacts: Joi.string().optional(),
+
+         url: Joi.string().optional(),
 
          state: Joi.string().required().messages({
             "any.required": "O estado é obrigatório",
