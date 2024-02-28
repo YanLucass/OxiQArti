@@ -1,4 +1,5 @@
 import { LoginUseCase } from "@authentication/useCases/LoginUseCase";
+import { instanceToInstance } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
@@ -11,7 +12,7 @@ export class LoginController {
 
       return res.status(200).json({
          message: "Vamos navegar no mar de tinta!",
-         user,
+         user: instanceToInstance(user),
          accessToken,
          refreshToken,
       });

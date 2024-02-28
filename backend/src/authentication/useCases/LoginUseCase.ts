@@ -37,13 +37,13 @@ export class LoginUseCase {
          const artist = await this.artistsRepository.findArtistByEmail(email);
 
          // If the artist doesn't exist, throw an error.
-         if (!artist) throw new AppError("This email is not registered!", 401);
+         if (!artist) throw new AppError("Esse email não está registrado", 401);
 
          // Compare artist's password.
          const passwordMatch = await compare(password, artist.password);
 
          // If passwords don't match, throw an error.
-         if (!passwordMatch) throw new AppError("Invalid email / password", 401);
+         if (!passwordMatch) throw new AppError("email / password inválido!", 401);
 
          // Create access token for the artist.
          const accessToken = createUserAccessToken(artist);

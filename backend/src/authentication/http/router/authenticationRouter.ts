@@ -20,8 +20,14 @@ authenticationRouter.post(
    "/",
    celebrate({
       [Segments.BODY]: Joi.object().keys({
-         email: Joi.string().email().required(),
-         password: Joi.string().required(),
+         email: Joi.string().email().required().messages({
+            "any.required": "O email é obrigatório!",
+            "string.email": "Por favor, insira um e-mail válido!",
+         }),
+
+         password: Joi.string().required().messages({
+            "any.required": "A senha é obrigatória!",
+         }),
       }),
    }),
 

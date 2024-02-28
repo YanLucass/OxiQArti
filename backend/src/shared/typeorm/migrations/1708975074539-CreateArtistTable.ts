@@ -24,6 +24,14 @@ export class CreateArtistTable1708975074539 implements MigrationInterface {
                   isUnique: true,
                   isNullable: false,
                },
+
+               {
+                  name: "phone",
+                  type: "varchar(12)",
+                  isUnique: true,
+                  isNullable: false,
+               },
+
                {
                   name: "state",
                   type: "varchar(30)",
@@ -39,6 +47,12 @@ export class CreateArtistTable1708975074539 implements MigrationInterface {
                {
                   name: "specialty",
                   type: "varchar(30)",
+                  isNullable: true,
+               },
+
+               {
+                  name: "avatar",
+                  type: "varchar(255)",
                   isNullable: true,
                },
 

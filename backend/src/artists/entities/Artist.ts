@@ -14,6 +14,9 @@ export class Artist {
    email: string;
 
    @Column()
+   phone: string;
+
+   @Column()
    state: string;
 
    @Column()
@@ -21,6 +24,9 @@ export class Artist {
 
    @Column()
    specialty?: string;
+
+   @Column()
+   avatar: string;
 
    @Column()
    @Exclude()

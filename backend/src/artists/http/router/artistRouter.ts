@@ -3,15 +3,25 @@ import { Router } from "express";
 import { container } from "tsyringe";
 const artistsRouter = Router();
 
+//multer
+import multer from "multer";
+//import uploadConfig
+import uploadConfig from "@config/uploadImage";
+
 //import controllers
 import { CreateArtistController } from "@artists/controllers/CreateArtistController";
+import { IsAuthenticated } from "@shared/http/middlewares/IsAuthenticated";
 
 //controller instance
 const createArtistController = container.resolve(CreateArtistController);
 
+//multer middleware
+const upload = multer(uploadConfig);
+
 //create new artist
 artistsRouter.post(
    "/",
+   IsAuthenticated,
    celebrate({
       [Segments.BODY]: Joi.object().keys({
          name: Joi.string().required().messages({
