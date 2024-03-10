@@ -17,8 +17,6 @@ export class CreateAccessAndRefreshTokenController {
          refresh_token: refresh_token,
       });
 
-      console.log(refreshToken);
-
       return res.status(201).json({
          user,
          accessToken,
