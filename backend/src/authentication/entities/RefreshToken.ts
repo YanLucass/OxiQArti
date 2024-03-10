@@ -10,6 +10,9 @@ export class RefreshToken {
    user_id: string;
 
    @Column()
+   artist_id: string;
+
+   @Column()
    refreshToken: string;
 
    @Column()

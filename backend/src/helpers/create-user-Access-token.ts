@@ -5,7 +5,7 @@ import { sign } from "jsonwebtoken";
 
 //to define user common or artist
 type Payload = {
-   indentifier: string;
+   identifier: string;
    isArtist: boolean;
 };
 
@@ -16,10 +16,13 @@ export const createUserAccessToken = (user: User | Artist): string => {
       throw new Error("jwtConfig.refresh.secret não está definido");
    }
 
+   //check if user is artist or user commom to generate token
+   const isArtist = "specialty" in user;
+
    //payload to token
    const payload: Payload = {
-      indentifier: user.isArtist ? "artist" : "user",
-      isArtist: user.isArtist,
+      identifier: isArtist ? "artist" : "user",
+      isArtist: isArtist,
    };
 
    const token = sign(payload, jwtConfig.jwt.secret, {

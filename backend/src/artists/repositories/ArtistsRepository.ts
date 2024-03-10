@@ -46,4 +46,8 @@ export class ArtistsRepository implements IArtistsRepository {
    findArtistByPhone(phone: string): Promise<Artist | null> {
       return this.artistsRepository.findOneBy({ phone });
    }
+
+   findArtistById(id: string): Promise<Artist | null> {
+      return this.artistsRepository.findOneBy({ id });
+   }
 }

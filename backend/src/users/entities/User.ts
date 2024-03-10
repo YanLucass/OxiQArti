@@ -21,6 +21,9 @@ export class User {
    isArtist!: boolean;
 
    @Column()
+   avatar: string;
+
+   @Column()
    @Exclude()
    password: string;
 

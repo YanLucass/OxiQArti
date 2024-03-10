@@ -30,4 +30,5 @@ export interface IArtistsRepository {
    findArtistByEmail(email: string): Promise<Artist | null>;
    //findByPhone
    findArtistByPhone(phone: string): Promise<Artist | null>;
+   findArtistById(id: string): Promise<Artist | null>;
 }

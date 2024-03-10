@@ -13,6 +13,7 @@ export class CreateUserController {
          name,
          email,
          likes,
+         avatarFileName: req.file?.filename,
          password,
       });
       return res.status(201).json({

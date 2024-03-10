@@ -1,69 +1,71 @@
+import { Artist } from "@artists/entities/Artist";
+import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
 import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
 import { AppError } from "@shared/errors/AppError";
 import { User } from "@users/entities/User";
 import { IUsersRepository } from "@users/repositories/IUsersRepository";
-import { createUserAccessToken } from "src/helpers/create-user-Access-token";
-import { createUserRefreshToken } from "src/helpers/create-user-RefreshToken";
+import { handleRefreshToken } from "src/helpers/handle-refresh-token";
 import { inject, injectable } from "tsyringe";
 
 //dto
-type CreateAccessAndRefreshTokenDTO = {
+export type CreateAccessAndRefreshTokenDTO = {
    user_id: string;
    refresh_token: string;
 };
 
 //response
 type IResponse = {
-   user: User;
+   user: User | Artist;
    accessToken: string;
    refreshToken: string;
 };
+
 @injectable()
 export class CreateAccessAndRefreshTokenUseCase {
    constructor(
       @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
       //usersRepository to get user by id
       @inject("UsersRepository") private usersRepository: IUsersRepository,
+      //artist repository
+      @inject("ArtistsRepository") private artistsRepository: IArtistsRepository,
    ) {}
 
    async execute({ user_id, refresh_token }: CreateAccessAndRefreshTokenDTO): Promise<IResponse> {
       //find user
-      const user = await this.usersRepository.findUserById(user_id);
+      const user: User | null = await this.usersRepository.findUserById(user_id);
 
       if (!user) {
-         throw new AppError("User not found", 404);
+         const artist = await this.artistsRepository.findArtistById(user_id);
+
+         //not user or artist
+         if (!artist) {
+            throw new AppError("User not found", 404);
+         }
+
+         //validations to create new access and refreshToken
+         const { refreshToken, accessToken } = await handleRefreshToken(
+            artist,
+            refresh_token,
+            this.refreshTokenRepository,
+         );
+
+         //return response
+         return {
+            user: artist,
+            accessToken,
+            refreshToken,
+         };
       }
 
-      //check if refresh token exists
-      const refresh = await this.refreshTokenRepository.findRefreshTokeByToken(refresh_token);
-
-      if (!refresh) {
-         throw new AppError("valid refresh token is required", 401);
-      }
-
-      //if refreshToken invalid or expired throw error.
-      const dateNow = new Date().getTime();
-      if (!refresh.valid || dateNow > refresh.expires.getTime()) {
-         throw new AppError("Token invalid or expired", 401);
-      }
-
-      //invalidate current refreshToken to generate another.
-      await this.refreshTokenRepository.invalidateRefreshToken(refresh);
-
-      //create new access and refresh token
-      const accessToken = createUserAccessToken(user);
-      const { refreshToken, expires } = createUserRefreshToken(user);
-
-      //save new refreshToken in bd
-      await this.refreshTokenRepository.create({
-         user_id: user.id,
-         refreshToken,
-         valid: true,
-         expires,
-      });
+      //case have user
+      const { refreshToken, accessToken } = await handleRefreshToken(
+         user,
+         refresh_token,
+         this.refreshTokenRepository,
+      );
 
       return {
-         user: user,
+         user,
          accessToken,
          refreshToken,
       };

@@ -2,13 +2,18 @@ import { Router } from "express";
 import { Joi, Segments, celebrate } from "celebrate";
 import { container } from "tsyringe";
 import { CreateUserController } from "@users/controllers/CreateUserController";
-
+import multer from "multer";
+import uploadConfig from "@config/uploadImage";
 const createUserController = container.resolve(CreateUserController);
 const usersRouter = Router();
+
+//multer middleware
+const upload = multer(uploadConfig);
 
 //create user router
 usersRouter.post(
    "/",
+   upload.single("image"),
    celebrate({
       [Segments.BODY]: Joi.object().keys({
          name: Joi.string().required().messages({

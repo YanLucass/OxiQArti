@@ -2,13 +2,15 @@ import { DataSource } from "typeorm";
 import dotenv from "dotenv";
 dotenv.config();
 //migrations
-import { CreateUserTable1708695151290 } from "./migrations/1708695151290-CreateUserTable";
-import { CreateRefreshTokenTable1708795878871 } from "./migrations/1708795878871-CreateRefreshTokenTable";
-import { CreateArtistTable1708975074539 } from "./migrations/1708975074539-CreateArtistTable";
+import { CreateUserTable1708695151290 } from "./migrations/1709407243751-CreateUserTable";
+import { CreateArtistTable1708975074539 } from "./migrations/1709407254551-CreateArtistTable";
+import { CreateRefreshTokenTable1708795878871 } from "./migrations/1709407719737-CreateRefreshTokenTable";
+
 //entities
 import { User } from "@users/entities/User";
-import { RefreshToken } from "@authentication/entities/RefreshToken";
 import { Artist } from "@artists/entities/Artist";
+import { RefreshToken } from "@authentication/entities/RefreshToken";
+
 //postgres
 export const PostgresDataSource = new DataSource({
    type: "postgres",
@@ -17,10 +19,10 @@ export const PostgresDataSource = new DataSource({
    username: process.env.DB_USERNAME,
    password: process.env.DB_PASSWORD,
    database: process.env.DB_DATABASE,
-   entities: [User, RefreshToken, Artist],
+   entities: [User, Artist, RefreshToken],
    migrations: [
       CreateUserTable1708695151290,
-      CreateRefreshTokenTable1708795878871,
       CreateArtistTable1708975074539,
+      CreateRefreshTokenTable1708795878871,
    ],
 });

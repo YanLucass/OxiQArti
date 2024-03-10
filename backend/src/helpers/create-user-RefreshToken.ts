@@ -11,7 +11,7 @@ type RefreshTokenResponse = {
 
 //to define user common or artist
 type Payload = {
-   indentifier: string;
+   identifier: string;
    isArtist: boolean;
 };
 
@@ -26,9 +26,13 @@ export const createUserRefreshToken = (user: User | Artist): RefreshTokenRespons
    }
 
    //payload to token
+
+   //check if is artist or user commom to generate identifer to token
+   const isArtist = "specialty" in user;
+
    const payload: Payload = {
-      indentifier: user.isArtist ? "artist" : "user",
-      isArtist: user.isArtist,
+      identifier: isArtist ? "artist" : "user",
+      isArtist,
    };
 
    //create refresh token with userID

@@ -13,12 +13,14 @@ export class RefreshTokenRepository implements IRefreshTokenRepository {
    //create refreshToken
    async create({
       user_id,
+      artist_id,
       refreshToken,
       valid,
       expires,
    }: CreateRefreshTokenDTO): Promise<RefreshToken> {
       const token = await this.refreshTokenRepository.create({
          user_id,
+         artist_id,
          refreshToken,
          valid,
          expires,
@@ -39,5 +41,10 @@ export class RefreshTokenRepository implements IRefreshTokenRepository {
       if (!token) throw new AppError("RefreshToken not found");
       token.valid = false;
       await this.refreshTokenRepository.save(token);
+   }
+
+   //delete refreshToken
+   async deleteRefreshToken(refresh_token: RefreshToken): Promise<void> {
+      await this.refreshTokenRepository.delete({ refreshToken: refresh_token.refreshToken });
    }
 }

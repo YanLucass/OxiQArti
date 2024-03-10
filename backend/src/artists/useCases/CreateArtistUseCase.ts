@@ -5,6 +5,7 @@ import { AppError } from "@shared/errors/AppError";
 import { hash } from "bcryptjs";
 import { createUserAccessToken } from "src/helpers/create-user-Access-token";
 import { createUserRefreshToken } from "src/helpers/create-user-RefreshToken";
+import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
 
 //to useCase response
 type IResponse = {
@@ -14,7 +15,10 @@ type IResponse = {
 };
 @injectable()
 export class CreateArtistUseCase {
-   constructor(@inject("ArtistsRepository") private artistsRepository: IArtistsRepository) {}
+   constructor(
+      @inject("ArtistsRepository") private artistsRepository: IArtistsRepository,
+      @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
+   ) {}
 
    async execute({
       name,
@@ -66,7 +70,15 @@ export class CreateArtistUseCase {
       const accessToken = createUserAccessToken(artist);
 
       //create refreshToken
-      const { refreshToken } = createUserRefreshToken(artist);
+      const { refreshToken, expires } = createUserRefreshToken(artist);
+
+      //save refresh token in bd
+      await this.refreshTokenRepository.create({
+         artist_id: artist.id,
+         refreshToken,
+         valid: true,
+         expires,
+      });
 
       return {
          artist,

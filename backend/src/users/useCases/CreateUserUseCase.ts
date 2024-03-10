@@ -22,7 +22,13 @@ export class CreateUserUseCase {
       @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
    ) {}
 
-   async execute({ name, email, likes, password }: CreateUserDTO): Promise<CreateUserResponse> {
+   async execute({
+      name,
+      email,
+      likes,
+      avatarFileName,
+      password,
+   }: CreateUserDTO): Promise<CreateUserResponse> {
       //check if emails already use.
       const emailAlreadyExists = await this.usersRepository.findUserByEmail(email);
 
@@ -37,6 +43,7 @@ export class CreateUserUseCase {
          name,
          email,
          likes,
+         avatarFileName,
          password: hashedPassword,
       });
 
