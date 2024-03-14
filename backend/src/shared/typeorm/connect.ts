@@ -5,6 +5,7 @@ dotenv.config();
 import { CreateUserTable1708695151290 } from "./migrations/1709407243751-CreateUserTable";
 import { CreateArtistTable1708975074539 } from "./migrations/1709407254551-CreateArtistTable";
 import { CreateRefreshTokenTable1708795878871 } from "./migrations/1709407719737-CreateRefreshTokenTable";
+import { CreateUserPublicationTable1710336128309 } from "./migrations/1710336128309-CreateUserPublicationTable";
 
 //entities
 import { User } from "@users/entities/User";
@@ -24,5 +25,6 @@ export const PostgresDataSource = new DataSource({
       CreateUserTable1708695151290,
       CreateArtistTable1708975074539,
       CreateRefreshTokenTable1708795878871,
+      CreateUserPublicationTable1710336128309,
    ],
 });
