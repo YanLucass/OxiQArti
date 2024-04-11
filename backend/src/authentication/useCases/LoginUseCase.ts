@@ -1,5 +1,6 @@
 import { Artist } from "@artists/entities/Artist";
 import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
+import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
 import { AppError } from "@shared/errors/AppError";
 import { User } from "@users/entities/User";
 import { IUsersRepository } from "@users/repositories/IUsersRepository";
@@ -26,6 +27,7 @@ export class LoginUseCase {
    constructor(
       @inject("UsersRepository") private usersRepository: IUsersRepository,
       @inject("ArtistsRepository") private artistsRepository: IArtistsRepository,
+      @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
    ) {}
 
    async execute({ email, password }: LoginParams): Promise<IResponse> {
@@ -48,8 +50,15 @@ export class LoginUseCase {
          // Create access token for the artist.
          const accessToken = createUserAccessToken(artist);
          // Create refresh token for the artist.
-         const { refreshToken } = createUserRefreshToken(artist);
+         const { refreshToken, expires } = createUserRefreshToken(artist);
 
+         //save refreshToken in bd
+         await this.refreshTokenRepository.create({
+            artist_id: artist.id,
+            refreshToken,
+            valid: true,
+            expires,
+         });
          // Return artist information with tokens.
          return {
             user: artist,
@@ -67,7 +76,15 @@ export class LoginUseCase {
       // Create access token for common user.
       const accessToken = createUserAccessToken(commomUser);
       // Create refresh token for common user.
-      const { refreshToken } = createUserRefreshToken(commomUser);
+      const { refreshToken, expires } = createUserRefreshToken(commomUser);
+
+      //saveRefreshToken in bd
+      await this.refreshTokenRepository.create({
+         user_id: commomUser.id,
+         refreshToken,
+         valid: true,
+         expires,
+      });
 
       // Return common user information with tokens.
       return {

@@ -22,6 +22,9 @@ app.use(router);
 //case celebrate detected some error
 app.use(errors());
 
+//file static
+app.use(express.static("uploads"));
+
 //middleware to class AppError.
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
    //our class of erros

@@ -38,8 +38,12 @@ export default {
             callback(null, path.join(uploadFolder, "artistsProfile"));
          }
          //post imagens
-         else if (req.baseUrl.includes("posts")) {
-            callback(null, path.join(uploadFolder, "usersPosts"));
+         else if (req.baseUrl.includes("publicationImage")) {
+            callback(null, path.join(uploadFolder, "publicationImage"));
+         } else if (req.baseUrl.includes("userPublication")) {
+            callback(null, path.join(uploadFolder, "userPublication"));
+         } else {
+            throw new Error("Nenhuma pasta encontrada com esse caminho");
          }
       },
 

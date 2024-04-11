@@ -29,18 +29,23 @@ export class CreateUserPublicationTable1710336128309 implements MigrationInterfa
                },
 
                {
-                  name: "user_id",
+                  name: "userId",
                   type: "uuid",
                   isNullable: false,
+               },
+               {
+                  name: "created_at",
+                  type: "timestamp",
+                  default: "CURRENT_TIMESTAMP",
                },
             ],
 
             foreignKeys: [
                {
-                  name: "users_id",
+                  name: "usersId",
                   referencedTableName: "users",
                   referencedColumnNames: ["id"],
-                  columnNames: ["user_id"],
+                  columnNames: ["userId"],
                   onDelete: "CASCADE",
                   onUpdate: "CASCADE",
                },
