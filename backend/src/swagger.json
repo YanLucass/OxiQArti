@@ -113,6 +113,7 @@
                                   "email": "yanlucas@gmail.com",
                                   "isArtist": false,
                                   "likes": null,
+                                  "avatar": "aaeb3309ae917950f05b_3.jpg",
                                   "created_at": "2024-03-14T14:10:36.516Z"
                               },
                               "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoidXNlciIsImlzQXJ0aXN0IjpmYWxzZSwiaWF0IjoxNzEwNDI1NDM2LCJleHAiOjE3MTA0MjU3MzYsInN1YiI6IjE3M2Y5NGM0LWZjMGItNGU5ZC1iNGU2LWI5ZjE0ZTA1YjRkNCJ9.vfyMGThYWZU3oZ_6FV4FrfTFx6aPKUbnpe6TvMu2250",
@@ -133,6 +134,149 @@
                }
             }
          }
+      },
+
+      "/auth": {
+         "post": {
+            "tags": ["Auth"],
+            "summary": "Login router",
+            "description": "Login with email and password",
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "email": {
+                              "type": "string"
+                           },
+
+                           "password": {
+                              "type": "string"
+                           }
+
+                        },
+
+                        "example": {
+                           "email": "hiago@gmail.com",
+                           "password": "hiago2"
+                        }
+
+                     }
+                  }
+               }
+
+            },
+
+            "responses": {
+               "200": {
+                  "description": "OK",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                             "message": {
+                              "type": "string"
+                             },
+
+                             "user": {
+                              "type": "object",
+                              "properties": {
+
+                                 "id": {
+                                    "type": "string"
+                                 },
+
+                                 "name": {
+                                    "type": "string"
+                                 },
+
+                                 "email": {
+                                    "type": "string"
+                                 },
+
+                                 "isArtist": {
+                                    "type": "boolean"
+                                 },
+
+                                 "likes": {
+                                    "type": "string"
+                                 },
+
+                                 "avatar": {
+                                    "type": "string"
+                                 },
+
+                                 "created_at": {
+                                    "type": "string"
+                                 }
+                              }
+                             },
+
+                             "accessToken": {
+                                 "type": "string"
+                             },
+
+                             "refreshToken": {
+                                 "type": "string"
+                             }
+                           },
+
+                           "example": {
+
+                                 "message": "Vamos navegar no mar de tinta!",
+                                 "user": {
+                                     "id": "0ae5dd8a-a5c0-4125-93a9-4d7ac00a8973",
+                                     "name": "Hiago",
+                                     "email": "Hiago@gmail.com",
+                                     "isArtist": false,
+                                     "likes": "Aquarela",
+                                     "avatar": null,
+                                     "created_at": "2024-04-10T17:37:36.472Z"
+                                 },
+                                 "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoidXNlciIsImlzQXJ0aXN0IjpmYWxzZSwiaWF0IjoxNzEyODU2NDUzLCJleHAiOjE3MTI4Njc4NTMsInN1YiI6IjBhZTVkZDhhLWE1YzAtNDEyNS05M2E5LTRkN2FjMDBhODk3MyJ9.nJQc_YE1LPHmPe4pzJFXSw-iHc1RlcL_4EW-LZ9-qag",
+                                 "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoidXNlciIsImlzQXJ0aXN0IjpmYWxzZSwiaWF0IjoxNzEyODU2NDUzLCJleHAiOjE3MTI4NTgyNTMsInN1YiI6IjBhZTVkZDhhLWE1YzAtNDEyNS05M2E5LTRkN2FjMDBhODk3MyJ9.XYBQhBgI_rxjIUTrpxlQBVtv4VIGC-S0frZBRwmhGCs"
+
+                           }
+                        }
+                     }
+                  }
+               },
+
+               "401": {
+                  "description": "Unauthorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "status": {
+                                 "type": "string"
+                              },
+
+                              "message": {
+                                 "type": "string"
+                              }
+                           },
+
+                           "example": {
+                              "status": "error",
+                              "message": "Invalid email / password"
+                           }
+
+                        }
+                     }
+                  }
+               },
+
+               "400": {
+                  "description": "Bad Request"
+               }
+            }
+            }
+
+
       }
    }
 }
