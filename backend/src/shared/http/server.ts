@@ -2,6 +2,12 @@
 import "reflect-metadata";
 import { app } from "./appExpress";
 
+//swagger
+import swaggerUi from "swagger-ui-express";
+import swaggerFile from "../../swagger.json";
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 import { PostgresDataSource } from "../typeorm/connect";
 
 //create connection

@@ -32,7 +32,7 @@ usersRouter.post(
             "any.only": "As senhas devem ser iguais",
          }),
 
-         likes: Joi.string().optional(),
+         likes: Joi.string().allow("").optional(),
       }),
    }),
    (req, res) => {

@@ -1,0 +1,138 @@
+{
+   "openapi": "3.0.3",
+   "info": {
+      "title": "OxiQArti Documentation",
+      "description": "OxiQArtiAPI Documentation with all specifications",
+      "version": "1.0.0",
+      "contact": {
+         "name": "Yan",
+         "email": "yanlucascarvalho18@gmail.com"
+      }
+   },
+
+   "paths": {
+      "/users": {
+         "post": {
+            "tags": ["Users"],
+            "summary": "Create a new User",
+            "description": "Create a new user with name, email, likes, image, password",
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "name": {
+                              "type": "string"
+                           },
+
+                           "email": {
+                              "type": "string"
+                           },
+
+                           "likes": {
+                              "type": "string"
+                           },
+
+                           "image": {
+                              "type": "string"
+                           },
+
+                           "password": {
+                              "type": "string"
+                           },
+
+                           "confirmPassword": {
+                              "type": "string"
+                           }
+
+                        },
+
+                        "required": ["name", "email", "password", "confirmPassword"]
+                     }
+                  }
+               }
+            },
+
+            "responses": {
+               "201": {
+                  "description": "new user created",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "message": {
+                                 "type": "string"
+                              },
+
+                              "user": {
+                                 "type": "object",
+                                  "properties": {
+                                    "id": {
+                                       "type": "string"
+                                    },
+
+                                    "name": {
+                                       "type": "string"
+                                    },
+
+                                    "email": {
+                                       "type": "string"
+                                    },
+
+                                    "isArtist": {
+                                       "type":"boolean"
+                                    },
+
+                                    "likes": {
+                                       "type": "string"
+                                    },
+
+                                    "created_at": {
+                                       "type": "string"
+                                    }
+
+                                  }
+                              },
+
+                              "accessToken": {
+                                 "type": "string"
+                              },
+
+                              "refreshToken": {
+                                 "type": "string"
+                              }
+                           },
+
+                           "example": {
+                              "message": "New user created.",
+                              "user": {
+                                  "id": "173f94c4-fc0b-4e9d-b4e6-b9f14e05b4d4",
+                                  "name": "Yan",
+                                  "email": "yanlucas@gmail.com",
+                                  "isArtist": false,
+                                  "likes": null,
+                                  "created_at": "2024-03-14T14:10:36.516Z"
+                              },
+                              "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoidXNlciIsImlzQXJ0aXN0IjpmYWxzZSwiaWF0IjoxNzEwNDI1NDM2LCJleHAiOjE3MTA0MjU3MzYsInN1YiI6IjE3M2Y5NGM0LWZjMGItNGU5ZC1iNGU2LWI5ZjE0ZTA1YjRkNCJ9.vfyMGThYWZU3oZ_6FV4FrfTFx6aPKUbnpe6TvMu2250",
+                              "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoidXNlciIsImlzQXJ0aXN0IjpmYWxzZSwiaWF0IjoxNzEwNDI1NDM2LCJleHAiOjE3MTA0MjcyMzYsInN1YiI6IjE3M2Y5NGM0LWZjMGItNGU5ZC1iNGU2LWI5ZjE0ZTA1YjRkNCJ9.Sfhjqzy06pXhAOM_pfgd2nTMJVwp6ZkVw3s77LBqRgg"
+                           }
+                        }
+
+                     }
+                  }
+               },
+
+               "400": {
+                  "description": "Bad Request"
+               },
+
+               "422": {
+                  "description": "email already use"
+               }
+            }
+         }
+      }
+   }
+}
