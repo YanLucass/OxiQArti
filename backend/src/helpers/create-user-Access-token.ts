@@ -1,7 +1,7 @@
-import { Artist } from "@artists/entities/Artist";
 import jwtConfig from "@config/jwtConfig";
-import { User } from "@users/entities/User";
 import { sign } from "jsonwebtoken";
+import { Artist } from "@artists/entities/Artist";
+import { User } from "@users/entities/User";
 
 //to define user common or artist
 type Payload = {

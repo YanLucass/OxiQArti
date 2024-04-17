@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-import { AppError } from "@shared/errors/AppError";
 import { container } from "tsyringe";
 import { CreateUserPublicationUseCase } from "@userPublications/useCases/CreateUserPublicationUseCase";
 
 //class transformer
 import { instanceToInstance } from "class-transformer";
-import { UserPublication } from "@userPublications/entities/UserPublication";
 
 export class CreateUserPublicationController {
    async handle(req: Request, res: Response) {
@@ -20,7 +18,8 @@ export class CreateUserPublicationController {
       const reqFiles = req.files;
 
       const newUserPublication = await createUserPublicationUseCase.execute(
-         { title, description, service, userId },
+         { title, description, service },
+         userId,
          reqFiles,
       );
 

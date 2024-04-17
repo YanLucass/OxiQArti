@@ -1,13 +1,19 @@
-import { Artist } from "@artists/entities/Artist";
-import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
-import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
-import { AppError } from "@shared/errors/AppError";
-import { User } from "@users/entities/User";
-import { IUsersRepository } from "@users/repositories/IUsersRepository";
+import { inject, injectable } from "tsyringe";
 import { compare } from "bcryptjs";
+import { AppError } from "@shared/errors/AppError";
+
+//entities
+import { User } from "@users/entities/User";
+import { Artist } from "@artists/entities/Artist";
+
+//interface
+import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
+import { IUsersRepository } from "@users/repositories/IUsersRepository";
+import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
+
+//helpers
 import { createUserAccessToken } from "src/helpers/create-user-Access-token";
 import { createUserRefreshToken } from "src/helpers/create-user-RefreshToken";
-import { inject, injectable } from "tsyringe";
 
 //LoginParams
 type LoginParams = {
@@ -67,6 +73,7 @@ export class LoginUseCase {
          };
       }
 
+      //case have commom user
       // Compare password for common user.
       const commomUserPasswordMatch = await compare(password, commomUser.password);
 

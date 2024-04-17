@@ -1,12 +1,15 @@
 import { IPublicationImageRepository } from "@publicationImages/repositories/IPublicationImageRepository";
 import { AppError } from "@shared/errors/AppError";
-import {
-   CreateUserPublicationDTO,
-   IUserPublicationRepository,
-} from "@userPublications/repositories/IUserPublicationRepository";
+import { IUserPublicationRepository } from "@userPublications/repositories/IUserPublicationRepository";
 import { IUsersRepository } from "@users/repositories/IUsersRepository";
 import { inject, injectable } from "tsyringe";
 
+//type to create userPublication
+type CreateUserPublication = {
+   title: string;
+   description: string;
+   service: string;
+};
 @injectable()
 export class CreateUserPublicationUseCase {
    constructor(
@@ -17,13 +20,13 @@ export class CreateUserPublicationUseCase {
       @inject("UsersRepository") private usersRepository: IUsersRepository,
    ) {}
 
-   async execute({ title, description, service, userId }: CreateUserPublicationDTO, reqFiles) {
+   async execute({ title, description, service }: CreateUserPublication, userId: string, reqFiles) {
       //create user publication
 
       //Check if the user onwer of id exits to pass for "create" from repository.
       const user = await this.usersRepository.findUserById(userId);
 
-      //se cair aq o usuario nãoévalido
+      //user invalid / no authenticated
       if (!user) {
          throw new AppError("Apenas usuários autenticados podem fazer publicações");
       }

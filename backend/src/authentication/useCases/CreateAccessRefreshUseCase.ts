@@ -13,7 +13,7 @@ export type CreateAccessAndRefreshTokenDTO = {
    refresh_token: string;
 };
 
-//response
+//response refreshToken
 type IResponse = {
    user: User | Artist;
    accessToken: string;
