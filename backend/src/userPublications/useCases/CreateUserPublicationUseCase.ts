@@ -29,7 +29,7 @@ export class CreateUserPublicationUseCase {
       //user invalid / no authenticated
       if (!user) {
          throw new AppError("Apenas usuários autenticados podem fazer publicações");
-      }
+      } else {
 
       const userPublication = await this.userPublicationRepository.createUserPublication({
          title,
@@ -50,5 +50,9 @@ export class CreateUserPublicationUseCase {
          }
       }
       return userPublication;
+
+      }
+
+      
    }
 }

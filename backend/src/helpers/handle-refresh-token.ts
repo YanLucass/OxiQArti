@@ -28,7 +28,7 @@ export const handleRefreshToken = async (
    // find refreshToken
    const refreshTokenByToken = await refreshTokenRepository.findRefreshTokeByToken(refresh_token);
    if (!refreshTokenByToken) {
-      throw new AppError("Refresh token invalid", 401);
+      throw new AppError("Refresh token invalid", 401);  
    }
 
    // wrap all operations in a transaction

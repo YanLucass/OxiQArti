@@ -8,6 +8,20 @@ export type CreateUserPublicationDTO = {
    user: User;
 };
 
+//type to paginate params
+export type GetAllPaginateParams = {
+   page: number;
+   skip: number;
+   take: number;
+}
+
+//paginate date return
+export type ListUserPublicationPaginateReturn = {
+   per_page: number; //limit per page
+   total: number; //total records in bd
+   current_page: number; 
+   data: UserPublication[]; // array all records(formart userPublications).
+}
 export interface IUserPublicationRepository {
    createUserPublication({
       title,
@@ -15,4 +29,7 @@ export interface IUserPublicationRepository {
       service,
       user,
    }: CreateUserPublicationDTO): Promise<UserPublication>;
+
+   //get all userPublication with pagination
+   getAllUserPublications({ page, skip, take }: GetAllPaginateParams): Promise<ListUserPublicationPaginateReturn>
 }

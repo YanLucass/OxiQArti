@@ -7,12 +7,14 @@ import { Joi, Segments, celebrate } from "celebrate";
 //multer
 import multer from "multer";
 import uploadConfig from "@config/uploadImage";
+import { GetAllUserPublicationController } from "@userPublications/controllers/GetAllUserPublicationController";
 
 const upload = multer(uploadConfig);
 const userPublicationRouter = Router();
 
 //controllers
 const createUserPublicationController = container.resolve(CreateUserPublicationController);
+const getAllUserPublicationController = container.resolve(GetAllUserPublicationController)
 
 //create user publication
 userPublicationRouter.post(
@@ -36,5 +38,10 @@ userPublicationRouter.post(
       return createUserPublicationController.handle(req, res);
    },
 );
+
+//get all userPublication
+userPublicationRouter.get('/getAll', (req, res) => { 
+   return getAllUserPublicationController.handle(req, res);
+});
 
 export { userPublicationRouter };
