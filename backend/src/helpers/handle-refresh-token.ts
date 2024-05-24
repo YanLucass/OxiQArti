@@ -23,7 +23,7 @@ export const handleRefreshToken = async (
    }
 
    let accessToken: string = "";
-   let refreshToken: string = "";
+   let refreshToken: string = ""
 
    // find refreshToken
    const refreshTokenByToken = await refreshTokenRepository.findRefreshTokeByToken(refresh_token);

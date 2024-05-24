@@ -2,7 +2,8 @@ import { User } from "@users/entities/User";
 import { PublicationImage } from "@publicationImages/entities/PublicationImage";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
-
+import { Applications } from "@applications/entities/Applications";
+  
 @Entity("users_publication")
 export class UserPublication {
    @PrimaryColumn()
@@ -26,6 +27,10 @@ export class UserPublication {
       cascade: true,
    })
    user: User;
+
+   //relation with applications
+   @OneToMany(() => Applications, applications => applications.userPublication, { cascade: true })
+   applications: Applications[];
 
    @CreateDateColumn()
    created_at: Date;

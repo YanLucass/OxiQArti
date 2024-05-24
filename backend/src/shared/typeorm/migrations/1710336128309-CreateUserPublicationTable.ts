@@ -33,6 +33,19 @@ export class CreateUserPublicationTable1710336128309 implements MigrationInterfa
                   type: "uuid",
                   isNullable: false,
                },
+
+               {
+                  name: "available",
+                  type: "boolean",
+                  default: true
+                  
+               },
+
+               {
+                  name: "artistId",
+                  type: "uuid",
+                  isNullable: true
+               },
                {
                   name: "created_at",
                   type: "timestamp",
@@ -49,6 +62,15 @@ export class CreateUserPublicationTable1710336128309 implements MigrationInterfa
                   onDelete: "CASCADE",
                   onUpdate: "CASCADE",
                },
+
+               {
+                  name: "artistId",
+                  referencedTableName: "artists",
+                  referencedColumnNames: ["id"],
+                  columnNames: ["artistId"],
+                  onDelete: "CASCADE",
+                  onUpdate: "CASCADE"
+               }
             ],
          }),
       );

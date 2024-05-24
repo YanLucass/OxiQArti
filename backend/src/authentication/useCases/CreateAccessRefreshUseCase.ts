@@ -47,7 +47,7 @@ export class CreateAccessAndRefreshTokenUseCase {
             artist,
             refresh_token,
             this.refreshTokenRepository,
-         );
+         )
 
          //return response
          return {
