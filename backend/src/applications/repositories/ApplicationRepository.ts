@@ -2,6 +2,7 @@ import { CreateApplicationDTO, IApplicationRepository } from "./IApplicationRepo
 import { Repository } from "typeorm";
 import { PostgresDataSource } from "@shared/typeorm/connect";
 import { Applications } from "@applications/entities/Applications";
+import { Artist } from "@artists/entities/Artist";
 
 export class ApplicationRepository implements IApplicationRepository {
 
@@ -9,6 +10,7 @@ export class ApplicationRepository implements IApplicationRepository {
     constructor() {
         this.applicationRepository = PostgresDataSource.getRepository(Applications)
     }
+    
 
     //create application
     createApplication({userPublication, artist}: CreateApplicationDTO): Promise<Applications> {
@@ -34,5 +36,25 @@ export class ApplicationRepository implements IApplicationRepository {
             },
             relations: ['userPublication', 'artist']
         });
+    }
+
+    //get all artists applications from an userPublication
+    async getAllArtistApplications(userPublicationId: string): Promise<Artist[] | null> {
+        const applications = await this.applicationRepository.find({
+            where: {
+                userPublication: { id: userPublicationId}
+            },
+
+            relations: ["artist"]       
+        })
+
+        //return object artist from applications array
+        const artists = applications.map((application) => { 
+            return application.artist
+        })
+
+        return artists;
+        
+        
     }
 }
