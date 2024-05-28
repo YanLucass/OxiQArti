@@ -22,7 +22,7 @@ export class ArtistsRepository implements IArtistsRepository {
       avatarFileName,
       password,
    }: CreateArtistDTO): Promise<Artist> {
-      const artist = await this.artistsRepository.create({
+      const artist = this.artistsRepository.create({
          name,
          email,
          phone,

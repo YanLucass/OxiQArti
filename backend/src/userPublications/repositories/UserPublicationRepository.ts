@@ -49,4 +49,8 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
 
       return result;
    }
+
+   async findUserPublicationById(id: string): Promise<UserPublication | null> {
+      return this.userPublicationRepository.findOneBy({ id: id});
+   }
 }

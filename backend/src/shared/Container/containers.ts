@@ -12,3 +12,6 @@ import "@publicationImages/container/publicationImageContainer";
 
 //userPublication
 import "@userPublications/container/userPublicationContainer";
+
+//applications
+import "@applications/container/applicationsContainer"

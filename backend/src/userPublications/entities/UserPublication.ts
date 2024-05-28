@@ -18,6 +18,9 @@ export class UserPublication {
    @Column()
    service: string;
 
+   @Column() 
+   available: boolean
+   
    //image relation
    @OneToMany(() => PublicationImage, image => image.userPublication, { cascade: true })
    images: PublicationImage[];

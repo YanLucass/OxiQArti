@@ -30,6 +30,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
    //our class of erros
    if (error instanceof AppError) {
       //return error and statusCode reported in class AppError.
+      
       return res.status(error.statusCode).json({
          status: "error",
          message: error.message,

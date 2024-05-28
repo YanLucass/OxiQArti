@@ -32,4 +32,5 @@ export interface IUserPublicationRepository {
 
    //get all userPublication with pagination
    getAllUserPublications({ page, skip, take }: GetAllPaginateParams): Promise<ListUserPublicationPaginateReturn>
+   findUserPublicationById(id: string): Promise<UserPublication | null>
 }

@@ -24,6 +24,6 @@ router.use("/publicationImage", publicationImageRouter);
 router.use("/userPublication", userPublicationRouter);
 
 //application router
-router.use("/application", applicationRouter);
+router.use("/applications", applicationRouter);
 
 export { router };
