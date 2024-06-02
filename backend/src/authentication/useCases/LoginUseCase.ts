@@ -4,10 +4,8 @@ import { AppError } from "@shared/errors/AppError";
 
 //entities
 import { User } from "@users/entities/User";
-import { Artist } from "@artists/entities/Artist";
 
 //interface
-import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
 import { IUsersRepository } from "@users/repositories/IUsersRepository";
 import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
 
@@ -23,7 +21,7 @@ type LoginParams = {
 
 //Response from LoginUseCase
 type IResponse = {
-   user: User | Artist;
+   user: User;
    accessToken: string;
    refreshToken: string;
 };
@@ -32,62 +30,31 @@ type IResponse = {
 export class LoginUseCase {
    constructor(
       @inject("UsersRepository") private usersRepository: IUsersRepository,
-      @inject("ArtistsRepository") private artistsRepository: IArtistsRepository,
       @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
    ) {}
 
    async execute({ email, password }: LoginParams): Promise<IResponse> {
-      // Check if it is a common user.
-      const commomUser = await this.usersRepository.findUserByEmail(email);
-
-      // Search in artists if not found as a common user.
-      if (!commomUser) {
-         const artist = await this.artistsRepository.findArtistByEmail(email);
-
-         // If the artist doesn't exist, throw an error.
-         if (!artist) throw new AppError("Esse email não está registrado", 401);
-
-         // Compare artist's password.
-         const passwordMatch = await compare(password, artist.password);
-
-         // If passwords don't match, throw an error.
-         if (!passwordMatch) throw new AppError("email / password inválido!", 401);
-
-         // Create access token for the artist.
-         const accessToken = createUserAccessToken(artist);
-         // Create refresh token for the artist.
-         const { refreshToken, expires } = createUserRefreshToken(artist);
-
-         //save refreshToken in bd
-         await this.refreshTokenRepository.create({
-            artist_id: artist.id,
-            refreshToken,
-            valid: true,
-            expires,
-         });
-         // Return artist information with tokens.
-         return {
-            user: artist,
-            accessToken,
-            refreshToken,
-         };
+      // Check if user is valid.
+      const user = await this.usersRepository.findUserByEmail(email);
+      if (!user) {
+         throw new AppError("Email don't registerd.");
       }
 
-      //case have commom user
-      // Compare password for common user.
-      const commomUserPasswordMatch = await compare(password, commomUser.password);
+      //case user exists
+      // Compare password
+      const userPasswordMatch = await compare(password, user.password);
 
       // If passwords don't match, throw an error.
-      if (!commomUserPasswordMatch) throw new AppError("Invalid email / password", 401);
+      if (!userPasswordMatch) throw new AppError("Invalid email / password", 401);
 
       // Create access token for common user.
-      const accessToken = createUserAccessToken(commomUser);
+      const accessToken = createUserAccessToken(user);
       // Create refresh token for common user.
-      const { refreshToken, expires } = createUserRefreshToken(commomUser);
+      const { refreshToken, expires } = createUserRefreshToken(user);
 
       //saveRefreshToken in bd
       await this.refreshTokenRepository.create({
-         user_id: commomUser.id,
+         user_id: user.id,
          refreshToken,
          valid: true,
          expires,
@@ -95,7 +62,7 @@ export class LoginUseCase {
 
       // Return common user information with tokens.
       return {
-         user: commomUser,
+         user: user,
          accessToken,
          refreshToken,
       };

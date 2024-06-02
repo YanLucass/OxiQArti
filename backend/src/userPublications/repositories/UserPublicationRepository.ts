@@ -26,6 +26,11 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
 
       
 
+      return this.save(userPublication)
+   }
+
+
+   async save(userPublication: UserPublication) {
       return this.userPublicationRepository.save(userPublication);
    }
 
@@ -51,6 +56,21 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
    }
 
    async findUserPublicationById(id: string): Promise<UserPublication | null> {
-      return this.userPublicationRepository.findOneBy({ id: id});
+
+      
+      const userPublication = await this.userPublicationRepository.findOne({
+         where: { id: id},
+         relations: ["user"]
+      })
+      
+      return userPublication 
+
+   }
+
+   //invalidate userPublication.
+   async invalidateUserPublication(userPublication: UserPublication): Promise<void> {
+      userPublication.available = false;
+      await this.save(userPublication);
+
    }
 }

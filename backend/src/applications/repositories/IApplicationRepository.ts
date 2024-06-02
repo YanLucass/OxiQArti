@@ -1,16 +1,21 @@
 //types
 import { Applications } from "@applications/entities/Applications";
-import { Artist } from "@artists/entities/Artist";
 import { UserPublication } from "@userPublications/entities/UserPublication";
+import { User } from "@users/entities/User";
 //Create application 
 export type CreateApplicationDTO = {
     userPublication: UserPublication;
-    artist: Artist;
+    user: User
 }
 
+export type AcceptArtistDTO = {
+    userPublicationId: string;
+    artistId: string;
+    userId: string;
+}
 
 export interface IApplicationRepository {
-   createApplication({userPublication, artist}: CreateApplicationDTO): Promise<Applications>; 
+   createApplication({userPublication, user}: CreateApplicationDTO): Promise<Applications>; 
    findRepeatApplication(userPublicationId: string, artistId: string): Promise<Applications | null>
-   getAllArtistApplications(userPublicationId: string): Promise<Artist[] | null>
+   getAllArtistApplications(userPublicationId: string): Promise<User[] | null>
 }

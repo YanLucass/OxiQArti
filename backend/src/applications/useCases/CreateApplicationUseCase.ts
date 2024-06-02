@@ -1,5 +1,4 @@
 import { IApplicationRepository } from "@applications/repositories/IApplicationRepository";
-import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
 import { AppError } from "@shared/errors/AppError";
 import { IUserPublicationRepository } from "@userPublications/repositories/IUserPublicationRepository";
 import { inject, injectable } from "tsyringe";
@@ -15,28 +14,24 @@ export class CreateApplicationUseCase {
     
 
     private applicationRepository: IApplicationRepository
-    private artistRepository: IArtistsRepository
     private userPublicationRepository: IUserPublicationRepository;
     constructor(
         @inject("ApplicationRepository") applicationRepository: IApplicationRepository,
-        @inject("ArtistsRepository") artistRepository: IArtistsRepository,
         @inject("UsersPublicationRepository") usersPublicationRepository: IUserPublicationRepository
     )
     
     {
         this.applicationRepository = applicationRepository;
-        this.artistRepository= artistRepository;
         this.userPublicationRepository = usersPublicationRepository;
     }
 
     async execute({userId, userPublicationId}: CreateApplicationDTO) {
-        //check if id belong a artist
-        const artist = await this.artistRepository.findArtistById(userId);
+        //check if id belong a user
 
         //if a commom user
-        if(!artist) {
-            throw new AppError("Apenas artistas podem se candidatar a serviços.", 401);
-        }
+        // if(!artist) {
+        //     throw new AppError("Apenas artistas podem se candidatar a serviços.", 401);
+        // }
     
         //check if userPublication(artService) exits
         const userPublication = await this.userPublicationRepository.findUserPublicationById(userPublicationId);
@@ -55,12 +50,12 @@ export class CreateApplicationUseCase {
         (userPublicationId, userId);
 
         if(artistAlreadyApplication) {
-            throw new AppError(`Olá ${artist.name} relaxe, você já se candidatou a esse serviço :)`, 401);
+            // throw new AppError(`Olá ${.name} relaxe, você já se candidatou a esse serviço :)`, 401);
         }
         
 
         //create application
-        return this.applicationRepository.createApplication({userPublication, artist});        
+        // return this.applicationRepository.createApplication({userPublication, artist});        
         
     }
 }

@@ -6,13 +6,19 @@ import { instanceToInstance } from "class-transformer";
 export class CreateUserController {
    async handle(req: Request, res: Response): Promise<Response> {
       const createUserUseCase = container.resolve(CreateUserUseCase);
-      const { name, email, password, likes } = req.body;
+      const { name, email, phone, contact, about, state, city, specialty, role, password } = req.body;
 
-      //get user and accessToken from service
+      // get user and accessToken from service
       const { user, accessToken, refreshToken } = await createUserUseCase.execute({
          name,
          email,
-         likes,
+         phone, 
+         contact,
+         about,
+         state,
+         city,
+         specialty,
+         role,
          avatarFileName: req.file?.filename,
          password,
       });

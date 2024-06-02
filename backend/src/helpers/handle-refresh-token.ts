@@ -1,4 +1,3 @@
-import { Artist } from "@artists/entities/Artist";
 import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
 import { AppError } from "@shared/errors/AppError";
 import { User } from "@users/entities/User";

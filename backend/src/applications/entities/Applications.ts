@@ -1,4 +1,3 @@
-import { Artist } from "@artists/entities/Artist";
 import { UserPublication } from "@userPublications/entities/UserPublication";
 import { Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
@@ -13,11 +12,11 @@ export class Applications {
     @ManyToOne(() => UserPublication, userPublication => userPublication.applications)
     userPublication: UserPublication;
 
-    //one artist have many applications.
-    @ManyToOne(() => Artist, {
-        cascade: true
-    })    
-    artist: Artist;
+    // //one artist have many applications.
+    // @ManyToOne(() => Artist, {
+    //     cascade: true
+    // })    
+    // artist: Artist;
 
 
     constructor() {

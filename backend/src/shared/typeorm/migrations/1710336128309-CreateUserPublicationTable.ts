@@ -42,7 +42,7 @@ export class CreateUserPublicationTable1710336128309 implements MigrationInterfa
                },
 
                {
-                  name: "artistId",
+                  name: "hiredArtist",
                   type: "uuid",
                   isNullable: true
                },
@@ -67,7 +67,7 @@ export class CreateUserPublicationTable1710336128309 implements MigrationInterfa
                   name: "artistId",
                   referencedTableName: "artists",
                   referencedColumnNames: ["id"],
-                  columnNames: ["artistId"],
+                  columnNames: ["hiredArtist"],
                   onDelete: "CASCADE",
                   onUpdate: "CASCADE"
                }

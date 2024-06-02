@@ -1,5 +1,3 @@
-import { Artist } from "@artists/entities/Artist";
-import { IArtistsRepository } from "@artists/repositories/IArtistsRepository";
 import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
 import { AppError } from "@shared/errors/AppError";
 import { User } from "@users/entities/User";
@@ -15,7 +13,7 @@ export type CreateAccessAndRefreshTokenDTO = {
 
 //response refreshToken
 type IResponse = {
-   user: User | Artist;
+   user: User
    accessToken: string;
    refreshToken: string;
 };
@@ -27,7 +25,6 @@ export class CreateAccessAndRefreshTokenUseCase {
       //usersRepository to get user by id
       @inject("UsersRepository") private usersRepository: IUsersRepository,
       //artist repository
-      @inject("ArtistsRepository") private artistsRepository: IArtistsRepository,
    ) {}
 
    async execute({ user_id, refresh_token }: CreateAccessAndRefreshTokenDTO): Promise<IResponse> {
@@ -35,26 +32,7 @@ export class CreateAccessAndRefreshTokenUseCase {
       const user: User | null = await this.usersRepository.findUserById(user_id);
 
       if (!user) {
-         const artist = await this.artistsRepository.findArtistById(user_id);
-
-         //not user or artist
-         if (!artist) {
-            throw new AppError("User not found", 404);
-         }
-
-         //validations to create new access and refreshToken
-         const { refreshToken, accessToken } = await handleRefreshToken(
-            artist,
-            refresh_token,
-            this.refreshTokenRepository,
-         )
-
-         //return response
-         return {
-            user: artist,
-            accessToken,
-            refreshToken,
-         };
+         throw new AppError("Apenas usuários logados podem solictar um refreshToken")
       }
 
       //case have user
@@ -64,10 +42,10 @@ export class CreateAccessAndRefreshTokenUseCase {
          this.refreshTokenRepository,
       );
 
-      return {
-         user,
-         accessToken,
-         refreshToken,
-      };
+      // return {
+      //    user,
+      //    accessToken,
+      //    refreshToken,
+      // };
    }
 }

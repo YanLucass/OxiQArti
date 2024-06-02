@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts",
-    "postdocker-up": "sleep 5 && npm run typeorm -- -d ./src/shared/typeorm/connect.ts migration:run", 
+    "postdocker-up": "sleep 2 && npm run typeorm -- -d ./src/shared/typeorm/connect.ts migration:run", 
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "docker:start": "docker-compose up -d",
     "start:dev": "npm run docker:start && npm run postdocker-up && npm run dev",

@@ -15,14 +15,9 @@ export class CreateRefreshTokenTable1708795878871 implements MigrationInterface 
                {
                   name: "user_id",
                   type: "uuid",
-                  isNullable: true,
+                  isNullable: false,
                },
 
-               {
-                  name: "artist_id",
-                  type: "uuid",
-                  isNullable: true,
-               },
 
                {
                   name: "refreshToken",
@@ -55,16 +50,7 @@ export class CreateRefreshTokenTable1708795878871 implements MigrationInterface 
                   columnNames: ["user_id"],
                   onDelete: "CASCADE",
                   onUpdate: "CASCADE",
-               },
-
-               {
-                  name: "RefreshTokenArtists",
-                  referencedTableName: "artists",
-                  referencedColumnNames: ["id"],
-                  columnNames: ["artist_id"],
-                  onDelete: "CASCADE",
-                  onUpdate: "CASCADE",
-               },
+               }
             ],
          }),
       );
