@@ -65,7 +65,7 @@ export class CreateUserPublicationTable1710336128309 implements MigrationInterfa
 
                {
                   name: "artistId",
-                  referencedTableName: "artists",
+                  referencedTableName: "users",
                   referencedColumnNames: ["id"],
                   columnNames: ["hiredArtist"],
                   onDelete: "CASCADE",

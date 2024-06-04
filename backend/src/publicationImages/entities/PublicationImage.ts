@@ -14,15 +14,12 @@ export class PublicationImage {
    @ManyToOne(() => UserPublication, userPublication => userPublication.images)
    @JoinColumn({ name: "publicationId" })
    userPublication: UserPublication;
-
+   
    @Column()
    publicationId: string;
 
    @Column()
    userId: string;
-
-   @Column()
-   artistId: string;
 
    @CreateDateColumn()
    created_at: Date;
@@ -31,12 +28,13 @@ export class PublicationImage {
       nameImage: string,
       userPublication: UserPublication,
       userId: string,
-      artistId: string,
    ) {
       this.id = uuidv4();
       this.nameImage = nameImage;
       this.userPublication = userPublication;
       this.userId = userId;
-      this.artistId = artistId;
    }
+
+
+ 
 }

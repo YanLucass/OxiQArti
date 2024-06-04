@@ -24,8 +24,6 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
          user,
       });
 
-      
-
       return this.save(userPublication)
    }
 

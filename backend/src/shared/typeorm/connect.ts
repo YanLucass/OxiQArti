@@ -26,8 +26,8 @@ export const PostgresDataSource = new DataSource({
    migrations: [
       CreateUserTable1708695151290,
       CreateRefreshTokenTable1708795878871,
-      // CreateUserPublicationTable1710336128309,
-      // PublicationsImages1710954972808,
+      CreateUserPublicationTable1710336128309,
+      PublicationsImages1710954972808,
       // Applications1716473121675
    ],
 });
