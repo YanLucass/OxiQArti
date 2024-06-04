@@ -9,23 +9,22 @@ type RefreshTokenResponse = {
 };
 
 
+
 //helper to create a new RefreshToken.
 export const createUserRefreshToken = (user: User): RefreshTokenResponse => {
    //create new date with refreshToken duration to expires column.
-   const currentDate = new Date();
-
+   const currentDate = new Date().toISOString();
+   const dateFormated = new Date(currentDate);
    //brazilian time
-   currentDate.setHours(currentDate.getHours() - 3);
-
-   console.log(currentDate.getTime());
    
-   const expires = new Date(currentDate.getTime() + jwtConfig.refreshToken.duration);
+      
+   const expires = new Date(dateFormated.getTime() + jwtConfig.refreshToken.duration);
+   
 
    //check if refreshToken secret is present
    if (!jwtConfig.refreshToken.secret) {
       throw new Error("jwtConfig.refresh.secret não está definido");
    }
-
 
    //create refresh token with userID
    const refreshToken = sign({}, jwtConfig.refreshToken.secret, {

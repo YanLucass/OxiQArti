@@ -24,7 +24,6 @@ export class CreateAccessAndRefreshTokenUseCase {
       @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
       //usersRepository to get user by id
       @inject("UsersRepository") private usersRepository: IUsersRepository,
-      //artist repository
    ) {}
 
    async execute({ user_id, refresh_token }: CreateAccessAndRefreshTokenDTO): Promise<IResponse> {
@@ -35,17 +34,20 @@ export class CreateAccessAndRefreshTokenUseCase {
          throw new AppError("Apenas usuários logados podem solictar um refreshToken")
       }
 
-      //case have user
+   
+      //case have user create new acess and refresh token with helper.
       const { refreshToken, accessToken } = await handleRefreshToken(
-         user,
-         refresh_token,
-         this.refreshTokenRepository,
+         {
+            user,
+            refresh_token,
+            refreshTokenRepository: this.refreshTokenRepository
+         }
       );
 
-      // return {
-      //    user,
-      //    accessToken,
-      //    refreshToken,
-      // };
+      return {
+         user,
+         accessToken,
+         refreshToken,
+      };
    }
 }

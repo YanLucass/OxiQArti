@@ -15,7 +15,7 @@ export class RefreshToken {
    @Column()
    valid: boolean;
 
-   @Column()
+   @Column({ type: 'timestamptz' })
    expires: Date;
 
    @CreateDateColumn()

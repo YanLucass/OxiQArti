@@ -82,10 +82,10 @@ export class CreateUserUseCase {
       const accessToken = createUserAccessToken(user);
 
       //create userRefreshToken
-      const { refreshToken, expires } = createUserRefreshToken(user);
-
+      const { refreshToken, expires } = await createUserRefreshToken(user);
+      
       //save refresh token in bd
-      this.refreshTokenRepository.create({ user_id: user.id, refreshToken, expires, valid: true });
+      await this.refreshTokenRepository.create({ user_id: user.id, refreshToken, expires, valid: true });
 
       return {
          user,

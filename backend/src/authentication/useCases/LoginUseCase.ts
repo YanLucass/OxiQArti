@@ -47,9 +47,9 @@ export class LoginUseCase {
       // If passwords don't match, throw an error.
       if (!userPasswordMatch) throw new AppError("Invalid email / password", 401);
 
-      // Create access token for common user.
+      // Create access token.
       const accessToken = createUserAccessToken(user);
-      // Create refresh token for common user.
+      // Create refresh token.
       const { refreshToken, expires } = createUserRefreshToken(user);
 
       //saveRefreshToken in bd
