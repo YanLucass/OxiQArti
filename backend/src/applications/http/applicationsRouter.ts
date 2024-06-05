@@ -26,7 +26,7 @@ applicationRouter.post('/:userPublicationId', IsAuthenticated, authRoles(['contr
 })
 
 //get all userPublication applications
-applicationRouter.get("/userPublication/:id", IsAuthenticated,(req, res) => {
+applicationRouter.get("/userPublication/:id", IsAuthenticated, authRoles(['contractingArtist', 'onlyContracting']) ,(req, res) => {
    return getAllArtistApplicationController.handle(req, res);
 })
 

@@ -16,5 +16,5 @@ export type AcceptArtistDTO = {
 export interface IApplicationRepository {
    createApplication({userPublication, user}: CreateApplicationDTO): Promise<Applications>; 
    findRepeatApplication(userPublicationId: string, userId: string): Promise<Applications | null>
-   getAllArtistApplications(userPublicationId: string): Promise<User[] | null>
+   getAllArtistsApplications(userPublicationId: string): Promise<User[] | null>
 }

@@ -46,8 +46,7 @@ export class CreateApplicationUseCase {
         if(!userPublication.available) {
             throw new AppError("Puxa, esse serviço não está mais disponível. Encontre mais em: (dominio)", 401)
         }
-
-                
+      
         //check if user already application to job.
         //preciso verificar na tabela applications se tem uma mesma userPublication. é so 
         const artistAlreadyApplication = await this.applicationRepository.findRepeatApplication(userPublicationId, userId);

@@ -10,11 +10,7 @@ export class ApplicationRepository implements IApplicationRepository {
     constructor() {
         this.applicationRepository = PostgresDataSource.getRepository(Applications)
     }
-    getAllArtistApplications(userPublicationId: string): Promise<User[] | null> {
-        throw new Error("Method not implemented.");
-    }
-    
-
+  
     //create application
     createApplication({userPublication, user}: CreateApplicationDTO): Promise<Applications> {
         const newApplication = this.applicationRepository.create({
@@ -39,29 +35,25 @@ export class ApplicationRepository implements IApplicationRepository {
                 user: { id: userId}
             },
             relations: ['userPublication', 'user']
-        });
-
-        
-
-        
+        });       
     }
 
     // //get all artists applications from an userPublication
-    // async getAllArtistApplications(userPublicationId: string): Promise<Artist[] | null> {
-    //     const applications = await this.applicationRepository.find({
-    //         where: {
-    //             userPublication: { id: userPublicationId}
-    //         },
+    async getAllArtistsApplications(userPublicationId: string): Promise<User[] | null> {
+        const applications = await this.applicationRepository.find({
+            where: {
+                userPublication: { id: userPublicationId}
+            },
+            relations: ['user']
+        })
 
-    //         relations: ["artist"]       
-    //     })
+                
+        // //return object artist from applications array
+        const artists = applications.map((application) => {
+            return application.user        
+        })
+
+        return artists;
         
-    //     // //return object artist from applications array
-    //     // const artists = applications.map((application) => { 
-    //     //     return application.artist
-    //     // })
-
-    //     // return artists;
-        
-
+    }
     }
