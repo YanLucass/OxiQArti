@@ -19,7 +19,7 @@ export class Applications1716473121675 implements MigrationInterface {
                 },
 
                 {
-                    name: "artistId",
+                    name: "userId",
                     type: "uuid",
                     isNullable: false
                 },
@@ -36,10 +36,10 @@ export class Applications1716473121675 implements MigrationInterface {
                 },
 
                 {
-                    name: "artistIdFk",
-                    referencedTableName: "artists",
+                    name: "userIdFk",
+                    referencedTableName: "users",
                     referencedColumnNames: ["id"],
-                    columnNames: ["artistId"],
+                    columnNames: ["userId"],
                     onDelete: "CASCADE",
                     onUpdate: "CASCADE"
                 }

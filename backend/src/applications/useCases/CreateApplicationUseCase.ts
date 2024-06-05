@@ -1,6 +1,8 @@
 import { IApplicationRepository } from "@applications/repositories/IApplicationRepository";
 import { AppError } from "@shared/errors/AppError";
+import { UserPublication } from "@userPublications/entities/UserPublication";
 import { IUserPublicationRepository } from "@userPublications/repositories/IUserPublicationRepository";
+import { IUsersRepository } from "@users/repositories/IUsersRepository";
 import { inject, injectable } from "tsyringe";
 
 
@@ -15,24 +17,25 @@ export class CreateApplicationUseCase {
 
     private applicationRepository: IApplicationRepository
     private userPublicationRepository: IUserPublicationRepository;
+    private usersRepository: IUsersRepository;
     constructor(
         @inject("ApplicationRepository") applicationRepository: IApplicationRepository,
-        @inject("UsersPublicationRepository") usersPublicationRepository: IUserPublicationRepository
+        @inject("UsersPublicationRepository") usersPublicationRepository: IUserPublicationRepository,
+        @inject("UsersRepository") usersRepository: IUsersRepository
     )
     
     {
         this.applicationRepository = applicationRepository;
         this.userPublicationRepository = usersPublicationRepository;
+        this.usersRepository = usersRepository
     }
 
     async execute({userId, userPublicationId}: CreateApplicationDTO) {
-        //check if id belong a user
+        
+        //find user
+        const user = await this.usersRepository.findUserById(userId);
+        if(!user) throw new AppError("User id invalid or user not exits");
 
-        //if a commom user
-        // if(!artist) {
-        //     throw new AppError("Apenas artistas podem se candidatar a serviços.", 401);
-        // }
-    
         //check if userPublication(artService) exits
         const userPublication = await this.userPublicationRepository.findUserPublicationById(userPublicationId);
         if(!userPublication) {
@@ -44,18 +47,17 @@ export class CreateApplicationUseCase {
             throw new AppError("Puxa, esse serviço não está mais disponível. Encontre mais em: (dominio)", 401)
         }
 
-        //check if artist already application to job.
+                
+        //check if user already application to job.
         //preciso verificar na tabela applications se tem uma mesma userPublication. é so 
-        const artistAlreadyApplication = await this.applicationRepository.findRepeatApplication
-        (userPublicationId, userId);
-
+        const artistAlreadyApplication = await this.applicationRepository.findRepeatApplication(userPublicationId, userId);
+        
         if(artistAlreadyApplication) {
-            // throw new AppError(`Olá ${.name} relaxe, você já se candidatou a esse serviço :)`, 401);
+            throw new AppError(`Você já se candidatou a esse serviço :)`, 401);
         }
         
-
         //create application
-        // return this.applicationRepository.createApplication({userPublication, artist});        
+        return this.applicationRepository.createApplication({userPublication, user});        
         
     }
 }

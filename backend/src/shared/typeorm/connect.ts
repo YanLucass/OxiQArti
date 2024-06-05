@@ -28,6 +28,6 @@ export const PostgresDataSource = new DataSource({
       CreateRefreshTokenTable1708795878871,
       CreateUserPublicationTable1710336128309,
       PublicationsImages1710954972808,
-      // Applications1716473121675
+      Applications1716473121675
    ],
 });

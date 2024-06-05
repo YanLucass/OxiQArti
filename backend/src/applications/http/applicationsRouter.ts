@@ -1,7 +1,10 @@
 
-import { IsAuthenticated } from "@shared/http/middlewares/IsAuthenticated";
 import { Router } from "express";
 import { container } from "tsyringe";
+
+//middlewares
+import { IsAuthenticated } from "@shared/http/middlewares/IsAuthenticated";
+import { authRoles } from "@applications/middlewares/authRoles";
 
 const applicationRouter = Router();
 
@@ -17,12 +20,13 @@ const acceptArtistController = container.resolve(AcceptArtistController);
 
 
 //create new application to artService(userPublication)
-applicationRouter.post('/:userPublicationId', IsAuthenticated, (req, res) => {
+//preciso de um middleware para barrar os usuarios
+applicationRouter.post('/:userPublicationId', IsAuthenticated, authRoles(['contractingArtist', 'onlyArtist']), (req, res) => {
    return createApplicationController.handle(req, res);
 })
 
 //get all userPublication applications
-applicationRouter.get("/userPublication/:id", IsAuthenticated, (req, res) => {
+applicationRouter.get("/userPublication/:id", IsAuthenticated,(req, res) => {
    return getAllArtistApplicationController.handle(req, res);
 })
 
