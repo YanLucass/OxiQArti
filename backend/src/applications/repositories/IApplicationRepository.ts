@@ -10,11 +10,12 @@ export type CreateApplicationDTO = {
 
 export type AcceptArtistDTO = {
     userPublicationId: string;
-    userId: string;
+    artistId: string;
 }
 
 export interface IApplicationRepository {
    createApplication({userPublication, user}: CreateApplicationDTO): Promise<Applications>; 
    findRepeatApplication(userPublicationId: string, userId: string): Promise<Applications | null>
    getAllArtistsApplications(userPublicationId: string): Promise<User[] | null>
+   rejectAnotherApplications(userPublicationId: string): Promise<void>
 }

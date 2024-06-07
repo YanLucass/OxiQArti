@@ -12,6 +12,7 @@ const applicationRouter = Router();
 import { CreateApplicationController } from "@applications/controllers/CreateApplicationController";
 import { GetAllArtistApplicationsController } from "@applications/controllers/GetAllArtistApplicationsController";
 import { AcceptArtistController } from "@applications/controllers/AcceptArtistController";
+import { Joi, Segments, celebrate } from "celebrate";
 
 //controllers resolve
 const createApplicationController = container.resolve(CreateApplicationController);
@@ -31,7 +32,16 @@ applicationRouter.get("/userPublication/:id", IsAuthenticated, authRoles(['contr
 })
 
 //accept artist
-applicationRouter.patch("/accept/artist/:userPublicationId", IsAuthenticated, (req, res) => {
+applicationRouter.patch("/accept/artist/:userPublicationId", IsAuthenticated, authRoles(['contractingArtist', 'onlyContracting']), 
+celebrate({
+   [Segments.BODY]: Joi.object().keys({
+      artistId: Joi.string().required().messages({
+         "any.required": "Por favor informe o id do artista a ser contrado!"
+      })
+   })
+}),
+
+(req, res) => {
    return acceptArtistController.handle(req, res);
 })
 export { applicationRouter }

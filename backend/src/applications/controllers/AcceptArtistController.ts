@@ -11,9 +11,11 @@ export class AcceptArtistController {
         const { artistId } = req.body;
         const userId = req.user.id;
 
-        const acceptedData = await acceptArtistUseCase.execute({userPublicationId, artistId, userId});
+        const artist = await acceptArtistUseCase.execute({userPublicationId, artistId}, userId);
         
-
+        res.status(201).json({
+            message: `Candidatura aceita, entre em contato com ${artist.name} para acertar `
+        })
         
         
     }

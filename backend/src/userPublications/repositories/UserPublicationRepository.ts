@@ -71,4 +71,10 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
       await this.save(userPublication);
 
    }
+
+   //insert artist id in field hiredArtist
+   async insertHiredArtistUserPublication(userPublication: UserPublication, artistId: string): Promise<void> {
+      userPublication.hiredArtist = artistId 
+      await this.save(userPublication);   
+   }
 }
