@@ -77,4 +77,10 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
       userPublication.hiredArtist = artistId 
       await this.save(userPublication);   
    }
+
+   //remove artist id in field hiredArtist(contract cancellation)
+   async removeHiredArtistUserPublication(userPublication: UserPublication): Promise<void> {
+      userPublication.hiredArtist = undefined;
+      await this.save(userPublication);
+   }
 }

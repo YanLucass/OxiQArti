@@ -22,7 +22,7 @@ export class UserPublication {
    available: boolean
    
    @Column({nullable: true})
-   hiredArtist: string;
+   hiredArtist?: string;
 
    //image relation
    @OneToMany(() => PublicationImage, image => image.userPublication, { cascade: true })

@@ -13,11 +13,13 @@ import { CreateApplicationController } from "@applications/controllers/CreateApp
 import { GetAllArtistApplicationsController } from "@applications/controllers/GetAllArtistApplicationsController";
 import { AcceptArtistController } from "@applications/controllers/AcceptArtistController";
 import { Joi, Segments, celebrate } from "celebrate";
+import { CancelHiredArtistController } from "@applications/controllers/CancelHiredArtistController";
 
 //controllers resolve
 const createApplicationController = container.resolve(CreateApplicationController);
 const getAllArtistApplicationController = container.resolve(GetAllArtistApplicationsController);
 const acceptArtistController = container.resolve(AcceptArtistController);
+const cancelHiredArtistController = container.resolve(CancelHiredArtistController)
 
 
 //create new application to artService(userPublication)
@@ -43,5 +45,11 @@ celebrate({
 
 (req, res) => {
    return acceptArtistController.handle(req, res);
-})
+}),
+
+applicationRouter.patch("/cancelHiredArtist/:userPublicationId", IsAuthenticated, authRoles(['contractingArtist', 'onlyContracting']),
+   (req, res) => {
+      return cancelHiredArtistController.handle(req, res);
+   }
+)
 export { applicationRouter }

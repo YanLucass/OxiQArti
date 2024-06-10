@@ -35,4 +35,5 @@ export interface IUserPublicationRepository {
    findUserPublicationById(id: string): Promise<UserPublication | null>
    invalidateUserPublication(userPublication: UserPublication): Promise<void>
    insertHiredArtistUserPublication(userPublication: UserPublication, artistId: string): Promise<void>
+   removeHiredArtistUserPublication(userPublication: UserPublication): Promise<void> 
 }

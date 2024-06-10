@@ -3,7 +3,6 @@ import { Repository } from "typeorm";
 import { PostgresDataSource } from "@shared/typeorm/connect";
 import { Applications } from "@applications/entities/Applications";
 import { User } from "@users/entities/User";
-import { UserPublication } from "@userPublications/entities/UserPublication";
 
 export class ApplicationRepository implements IApplicationRepository {
 
@@ -58,8 +57,7 @@ export class ApplicationRepository implements IApplicationRepository {
     }
 
     //delete applications with id
-    async rejectAnotherApplications(userPublicationId: string): Promise<void> {
-        
+    async rejectAnotherApplications(userPublicationId: string): Promise<void> {        
         await this.applicationRepository.createQueryBuilder()
         .delete()
         .from(Applications)

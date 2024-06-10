@@ -4,6 +4,7 @@ import { container } from "tsyringe";
 import { CreateApplicationController } from "@applications/controllers/CreateApplicationController";
 import { GetAllArtistApplicationsController } from "@applications/controllers/GetAllArtistApplicationsController";
 import { AcceptArtistController } from "@applications/controllers/AcceptArtistController";
+import { CancelHiredArtistController } from "@applications/controllers/CancelHiredArtistController";
 //repositories
 import { ApplicationRepository } from "@applications/repositories/ApplicationRepository";
 
@@ -11,5 +12,6 @@ import { ApplicationRepository } from "@applications/repositories/ApplicationRep
 container.registerSingleton("CreateApplicationController", CreateApplicationController);
 container.registerSingleton("GetAllArtistApplicationController", GetAllArtistApplicationsController);
 container.registerSingleton("AcceptArtistController", AcceptArtistController);
+container.registerSingleton("CancelHiredArtistController", CancelHiredArtistController);
 //register repositories
 container.registerSingleton("ApplicationRepository", ApplicationRepository)
