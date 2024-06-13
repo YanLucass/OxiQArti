@@ -24,7 +24,7 @@ export class AcceptArtistUseCase {
         //check if userPublicatione exists
         const userPublication = await this.usersPublicationRepository.findUserPublicationById(userPublicationId);
         if(!userPublication) {
-            throw new AppError("Hey! Esse serviço foi apagado ou não existe.");
+            throw new AppError("Hey! Esse serviço foi apagado ou não existe.")
         }
         
         //check if user already accepted a artist.
@@ -50,15 +50,13 @@ export class AcceptArtistUseCase {
         await this.applicationsRepository.rejectAnotherApplications(userPublicationId)
 
         return artist;
+    
        } catch (error) {
             console.error("Erro no acceptArtistUseCase", error);
             throw Error
        }
-
-           
-
-        } 
+    
+    } 
         
-     
-    }
+}
 
