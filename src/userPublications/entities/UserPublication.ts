@@ -21,8 +21,8 @@ export class UserPublication {
    @Column() 
    available: boolean
    
-   @Column({nullable: true})
-   hiredArtist: string;
+   @Column({type: "varchar", nullable: true})
+   hiredArtist: string | null;
 
    //image relation
    @OneToMany(() => PublicationImage, image => image.userPublication, { cascade: true })
@@ -41,10 +41,12 @@ export class UserPublication {
    @CreateDateColumn()
    created_at: Date;
 
-   constructor(title: string, description: string, service: string) {
+   constructor(title: string, description: string, service: string, available: boolean) {
       this.id = uuidv4();
       this.title = title;
       this.description = description;
       this.service = service;
+      this.available = true;
+      this.hiredArtist = null
    }
 }

@@ -42,6 +42,6 @@ celebrate({
 }),
 
 (req, res) => {
-   return acceptArtistController.handle(req, res);
+      return acceptArtistController.handle(req, res); 
 })
 export { applicationRouter }
