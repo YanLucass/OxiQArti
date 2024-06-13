@@ -35,6 +35,8 @@ export class CreateApplicationUseCase {
         //find user
         const user = await this.usersRepository.findUserById(userId);
         if(!user) throw new AppError("User id invalid or user not exits");
+        console.log("ryzen é seu final");
+        
 
         //check if userPublication(artService) exits
         const userPublication = await this.userPublicationRepository.findUserPublicationById(userPublicationId);
