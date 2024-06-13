@@ -1,6 +1,6 @@
 import { UserPublication } from "@userPublications/entities/UserPublication";
 import { CreateUserPublicationDTO, IUserPublicationRepository, ListUserPublicationPaginateReturn, GetAllPaginateParams } from "./IUserPublicationRepository";
-import { QueryBuilder, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { PostgresDataSource } from "@shared/typeorm/connect";
 
 export class UsersPublicationRepository implements IUserPublicationRepository {

@@ -1,5 +1,5 @@
 import "express-async-errors";
-import express, { NextFunction, Request, Response } from "express";
+import express, {Request, Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 //router
@@ -26,7 +26,7 @@ app.use(errors());
 app.use(express.static("uploads"));
 
 //middleware to class AppError.
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((error: Error, req: Request, res: Response) => {
    //our class of erros
    if (error instanceof AppError) {
       //return error and statusCode reported in class AppError.
@@ -44,6 +44,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
       status: "error",
       message: "Internal server error",
    });
+
 });
 
 export { app };

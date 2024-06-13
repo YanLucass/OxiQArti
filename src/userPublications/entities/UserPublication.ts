@@ -48,5 +48,6 @@ export class UserPublication {
       this.service = service;
       this.available = true;
       this.hiredArtist = null
+      this.available = available;
    }
 }

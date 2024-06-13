@@ -1,5 +1,4 @@
 import { IUserPublicationRepository, ListUserPublicationPaginateReturn } from "@userPublications/repositories/IUserPublicationRepository";
-import { UsersPublicationRepository } from "@userPublications/repositories/UserPublicationRepository";
 import { inject, injectable } from "tsyringe";
 
 

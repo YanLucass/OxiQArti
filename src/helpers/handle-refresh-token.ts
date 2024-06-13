@@ -3,7 +3,7 @@ import { AppError } from "@shared/errors/AppError";
 import { User } from "@users/entities/User";
 import { createUserAccessToken } from "./create-user-Access-token";
 import { createUserRefreshToken } from "./create-user-RefreshToken";
-import { PostgresDataSource } from "@shared/typeorm/connect";
+// import { PostgresDataSource } from "@shared/typeorm/connect";
 
 
 type newAccessTokensDTO = {
@@ -34,8 +34,8 @@ export const handleRefreshToken = async (
    }
    
 
-   // wrap all operations in a transaction
-   await PostgresDataSource.transaction(async transactionalEntityManager => {
+   // // wrap all operations in a transaction
+   // await PostgresDataSource.transaction(async transactionalEntityManager => {
       //invalidate current refreshToken to create another.
       await refreshTokenRepository.invalidateRefreshToken(refreshTokenByToken);
 
@@ -64,7 +64,7 @@ export const handleRefreshToken = async (
          valid: true,
          expires: newToken.expires,
       });
-   });
+
 
    // return new refresh and access token
    return {
