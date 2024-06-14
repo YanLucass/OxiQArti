@@ -1,53 +1,54 @@
-import { User } from "@users/entities/User";
-import { PublicationImage } from "@publicationImages/entities/PublicationImage";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
-import { Applications } from "@applications/entities/Applications";
-  
-@Entity("users_publication")
+import { User } from '@users/entities/User';
+import { PublicationImage } from '@publicationImages/entities/PublicationImage';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
+import { Applications } from '@applications/entities/Applications';
+
+@Entity('users_publication')
 export class UserPublication {
-   @PrimaryColumn()
-   id!: string;
+    @PrimaryColumn()
+    id!: string;
 
-   @Column()
-   title: string;
+    @Column()
+    title: string;
 
-   @Column()
-   description: string;
+    @Column()
+    description: string;
 
-   @Column()
-   service: string;
+    @Column()
+    service: string;
 
-   @Column() 
-   available: boolean
-   
-   @Column({type: "varchar", nullable: true})
-   hiredArtist: string | null;
+    @Column()
+    available: boolean;
 
-   //image relation
-   @OneToMany(() => PublicationImage, image => image.userPublication, { cascade: true })
-   images: PublicationImage[];
+    @Column({ type: 'varchar', nullable: true })
+    hiredArtist: string | null;
 
-   //user relalation
-   @ManyToOne(() => User, {
-      cascade: true,
-   })
-   user: User;
+    //image relation
+    @OneToMany(() => PublicationImage, image => image.userPublication, { cascade: true })
+    images: PublicationImage[];
 
-   //relation with applications
-   @OneToMany(() => Applications, applications => applications.userPublication, { cascade: true })
-   applications: Applications[];
+    //user relalation
+    @ManyToOne(() => User, {
+        cascade: true,
+    })
+    user: User;
 
-   @CreateDateColumn()
-   created_at: Date;
+    //relation with applications
+    @OneToMany(() => Applications, applications => applications.userPublication, { cascade: true })
+    applications: Applications[];
 
-   constructor(title: string, description: string, service: string, available: boolean) {
-      this.id = uuidv4();
-      this.title = title;
-      this.description = description;
-      this.service = service;
-      this.available = true;
-      this.hiredArtist = null
-      this.available = available;
-   }
+    @CreateDateColumn()
+    created_at: Date;
+
+    constructor(title: string, description: string, service: string, available: boolean) {
+        this.id = uuidv4();
+        this.title = title;
+        this.description = description;
+        this.service = service;
+        this.available = true;
+        this.hiredArtist = null;
+        this.available = available;
+    }
 }
+

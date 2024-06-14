@@ -75,6 +75,6 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
    //insert artist id in field hiredArtist
    async insertHiredArtistUserPublication(userPublication: UserPublication, artistId: string): Promise<void> {
       userPublication.hiredArtist = artistId 
-      await this.save(userPublication);   
+      await this.save(userPublication)   
    }
 }
