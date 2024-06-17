@@ -1,50 +1,48 @@
-import { RefreshToken } from "@authentication/entities/RefreshToken";
-import { PostgresDataSource } from "@shared/typeorm/connect";
-import { Repository } from "typeorm";
-import { CreateRefreshTokenDTO, IRefreshTokenRepository } from "./IRefreshTokenRepository";
-import { AppError } from "@shared/errors/AppError";
+import { RefreshToken } from '@authentication/entities/RefreshToken';
+import { PostgresDataSource } from '@shared/typeorm/connect';
+import { Repository } from 'typeorm';
+import { CreateRefreshTokenDTO, IRefreshTokenRepository } from './IRefreshTokenRepository';
+import { AppError } from '@shared/errors/AppError';
 
 export class RefreshTokenRepository implements IRefreshTokenRepository {
-   private refreshTokenRepository: Repository<RefreshToken>;
-   constructor() {
-      this.refreshTokenRepository = PostgresDataSource.getRepository(RefreshToken);
-   }
+    private refreshTokenRepository: Repository<RefreshToken>;
 
-   //create refreshToken
-   async create({
-      user_id,
-      artist_id,
-      refreshToken,
-      valid,
-      expires,
-   }: CreateRefreshTokenDTO): Promise<RefreshToken> {
-      const token = await this.refreshTokenRepository.create({
-         user_id,
-         artist_id,
-         refreshToken,
-         valid,
-         expires,
-      });
-      return this.refreshTokenRepository.save(token);
-   }
+    constructor() {
+        this.refreshTokenRepository = PostgresDataSource.getRepository(RefreshToken);
+    }
 
-   //find refreshToken by id
-   findRefreshTokeByToken(refresh_token: string): Promise<RefreshToken | null> {
-      return this.refreshTokenRepository.findOneBy({ refreshToken: refresh_token });
-   }
+    async create({
+        user_id,
+        refreshToken,
+        valid,
+        expires,
+    }: CreateRefreshTokenDTO): Promise<RefreshToken> {
+        // Converter para UTC
+        const utcExpires = new Date(expires.toISOString());
 
-   //invalidate
-   async invalidateRefreshToken(refresh_token: RefreshToken): Promise<void> {
-      const token = await this.findRefreshTokeByToken(refresh_token.refreshToken);
+        const token = this.refreshTokenRepository.create({
+            user_id,
+            refreshToken,
+            valid,
+            expires: utcExpires,
+        });
 
-      //check if exists
-      if (!token) throw new AppError("RefreshToken not found");
-      token.valid = false;
-      await this.refreshTokenRepository.save(token);
-   }
 
-   //delete refreshToken
-   async deleteRefreshToken(refresh_token: RefreshToken): Promise<void> {
-      await this.refreshTokenRepository.delete({ refreshToken: refresh_token.refreshToken });
-   }
+        return this.refreshTokenRepository.save(token);
+    }
+
+    findRefreshTokenByRefreshToken(refresh_token: string): Promise<RefreshToken | null> {
+        return this.refreshTokenRepository.findOneBy({ refreshToken: refresh_token });
+    }
+
+    async invalidateRefreshToken(refresh_token: RefreshToken): Promise<void> {
+        const token = await this.findRefreshTokenByRefreshToken(refresh_token.refreshToken);
+        if (!token) throw new AppError('RefreshToken not found');
+        token.valid = false;
+        await this.refreshTokenRepository.save(token);
+    }
+
+    async deleteRefreshToken(refresh_token: RefreshToken): Promise<void> {
+        await this.refreshTokenRepository.delete({ refreshToken: refresh_token.refreshToken });
+    }
 }

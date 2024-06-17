@@ -1,3 +1,4 @@
+import { UserRole } from "@users/repositories/IUsersRepository";
 import { Exclude } from "class-transformer";
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
@@ -14,12 +15,32 @@ export class User {
    @Column()
    email: string;
 
-   @Column({ nullable: true })
-   likes: string;
+   @Column()
+   phone: string;
 
    @Column()
-   isArtist!: boolean;
+   contact: string;
 
+   @Column()
+   about: string;
+   
+
+   @Column()
+   state: string;
+
+   @Column()
+   city: string;
+
+   @Column()
+   specialty?: string
+
+   @Column({
+      type: "enum",
+      enum: UserRole,
+      default: UserRole.onlyContracting
+   })
+   role: UserRole
+   
    @Column()
    avatar: string;
 
@@ -35,6 +56,5 @@ export class User {
       this.name = name;
       this.email = email;
       this.password = password;
-      this.isArtist = false;
    }
 }

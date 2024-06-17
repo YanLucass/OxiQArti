@@ -4,6 +4,9 @@ import { container } from "tsyringe";
 import { CreateUserController } from "@users/controllers/CreateUserController";
 import multer from "multer";
 import uploadConfig from "@config/uploadImage";
+
+//types
+import { UserRole } from "@users/repositories/IUsersRepository";
 const createUserController = container.resolve(CreateUserController);
 const usersRouter = Router();
 
@@ -24,6 +27,29 @@ usersRouter.post(
             "any.required": "O email é obrigatório!",
             "string.email": "Por favor, insira um e-mail válido!",
          }),
+
+         phone: Joi.string().optional(),
+         contact: Joi.string().required().messages({
+            "any.required": "Por favor, informe pelo menos um contato(Instagram, facebook, linkedin etc)"
+         }),
+         about: Joi.string().optional(),
+         state: Joi.string().required().messages({
+            "any.required": "O seu estado é obrigatório"
+         }),
+
+         city: Joi.string().required().messages({
+            "any.required": "Por favor informe sua cidade."
+         }),
+
+         specialty: Joi.string().optional(),
+
+    
+         //valid verify if input value is a valid string 'only_artist' ...
+        role: Joi.string().valid(...Object.values(UserRole)).required().messages({
+            "any.required": "Por favor escolha uma modalidade para sua conta.",
+            "any.only": "Os tipos de conta são: onlyArtist(Prestar serviços somente) contractingArtist(prestar e publicar) e onlyContracting(apenas contratar)" 
+        }),
+
          password: Joi.string().required().messages({
             "any.required": "A senha é obrigatória!",
          }),
@@ -32,7 +58,7 @@ usersRouter.post(
             "any.only": "As senhas devem ser iguais",
          }),
 
-         likes: Joi.string().allow("").optional(),
+        
       }),
    }),
    (req, res) => {

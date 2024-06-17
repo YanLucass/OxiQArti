@@ -12,6 +12,5 @@ export interface IPublicationImageRepository {
       nameImage,
       userPublication,
       userId,
-      artistId,
    }: CreatePublicationImageDTO): Promise<void>;
 }

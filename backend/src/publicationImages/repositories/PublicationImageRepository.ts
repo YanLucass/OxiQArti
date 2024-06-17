@@ -23,7 +23,6 @@ export class PublicationImageRepository implements IPublicationImageRepository {
          userPublication,
          userId,
       });
-      console.log(image);
 
       await this.publicationImagesRepository.save(image);
    }

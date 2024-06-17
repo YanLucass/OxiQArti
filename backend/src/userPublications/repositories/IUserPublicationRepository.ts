@@ -32,4 +32,7 @@ export interface IUserPublicationRepository {
 
    //get all userPublication with pagination
    getAllUserPublications({ page, skip, take }: GetAllPaginateParams): Promise<ListUserPublicationPaginateReturn>
+   findUserPublicationById(id: string): Promise<UserPublication | null>
+   invalidateUserPublication(userPublication: UserPublication): Promise<void>
+   insertHiredArtistUserPublication(userPublication: UserPublication, artistId: string): Promise<void>
 }

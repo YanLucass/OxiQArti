@@ -30,11 +30,6 @@ export class PublicationsImages1710954972808 implements MigrationInterface {
                   isNullable: true,
                },
 
-               {
-                  name: "artistId",
-                  type: "uuid",
-                  isNullable: true,
-               },
 
                {
                   name: "created_at",
@@ -52,15 +47,7 @@ export class PublicationsImages1710954972808 implements MigrationInterface {
                   onDelete: "CASCADE",
                   onUpdate: "CASCADE",
                },
-
-               // {
-               //    name: "artistPublication_id",
-               //    referencedTableName: "artist_publication",
-               //    referencedColumnNames: ["id"],
-               //    columnNames: ["publication_id"],
-               //    onDelete: "CASCADE",
-               //    onUpdate: "CASCADE",
-               // },
+    
 
                {
                   name: "userId",
@@ -69,14 +56,7 @@ export class PublicationsImages1710954972808 implements MigrationInterface {
                   columnNames: ["userId"],
                   onDelete: "CASCADE",
                   onUpdate: "CASCADE",
-               },
-
-               {
-                  name: "artistId",
-                  referencedTableName: "artists",
-                  referencedColumnNames: ["id"],
-                  columnNames: ["artistId"],
-               },
+               }
             ],
          }),
       );

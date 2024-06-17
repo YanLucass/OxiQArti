@@ -15,18 +15,36 @@ export class UsersRepository implements IUsersRepository {
    async createUser({
       name,
       email,
-      likes,
+      phone,
+      contact,
+      about,
+      state,
+      city,
+      specialty,
+      role,
       avatarFileName,
       password,
    }: CreateUserDTO): Promise<User> {
       const user = await this.usersRepository.create({
          name,
          email,
+         phone,
+         contact,
+         about,
+         state,
+         city,
+         specialty,
+         role,
          avatar: avatarFileName,
          password,
-         likes,
       });
       return this.usersRepository.save(user);
+   }
+
+
+   //save user
+   async saveUser(user: User[]) {
+      await this.usersRepository.save(user);
    }
 
    //findByEmail
@@ -38,4 +56,10 @@ export class UsersRepository implements IUsersRepository {
    findUserById(id: string): Promise<User | null> {
       return this.usersRepository.findOneBy({ id: id });
    }
+   
+   //find by phone
+   findUserByPhoneNumber(phone: string): Promise<User | null> {
+      return this.usersRepository.findOneBy({phone: phone})
+   }
+
 }

@@ -24,6 +24,11 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
          user,
       });
 
+      return this.save(userPublication)
+   }
+
+
+   async save(userPublication: UserPublication) {
       return this.userPublicationRepository.save(userPublication);
    }
 
@@ -46,5 +51,30 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
 
 
       return result;
+   }
+
+   async findUserPublicationById(id: string): Promise<UserPublication | null> {
+
+      
+      const userPublication = await this.userPublicationRepository.findOne({
+         where: { id: id},
+         relations: ["user"]
+      })
+      
+      return userPublication 
+
+   }
+
+   //invalidate userPublication.
+   async invalidateUserPublication(userPublication: UserPublication): Promise<void> {
+      userPublication.available = false;
+      await this.save(userPublication);
+
+   }
+
+   //insert artist id in field hiredArtist
+   async insertHiredArtistUserPublication(userPublication: UserPublication, artistId: string): Promise<void> {
+      userPublication.hiredArtist = artistId 
+      await this.save(userPublication);   
    }
 }

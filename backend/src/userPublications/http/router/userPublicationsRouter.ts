@@ -8,6 +8,7 @@ import { Joi, Segments, celebrate } from "celebrate";
 import multer from "multer";
 import uploadConfig from "@config/uploadImage";
 import { GetAllUserPublicationController } from "@userPublications/controllers/GetAllUserPublicationController";
+import { authRoles } from "@applications/middlewares/authRoles";
 
 const upload = multer(uploadConfig);
 const userPublicationRouter = Router();
@@ -21,6 +22,7 @@ userPublicationRouter.post(
    "/create",
    upload.array("images", 2),
    IsAuthenticated,
+   authRoles(['onlyContracting', 'contractingArtist']),
    celebrate({
       [Segments.BODY]: Joi.object().keys({
          title: Joi.string().optional(),
