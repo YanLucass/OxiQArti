@@ -1,4 +1,3 @@
-
 import { Router } from "express";
 import { container } from "tsyringe";
 
@@ -19,29 +18,52 @@ const createApplicationController = container.resolve(CreateApplicationControlle
 const getAllArtistApplicationController = container.resolve(GetAllArtistApplicationsController);
 const acceptArtistController = container.resolve(AcceptArtistController);
 
-
 //create new application to artService(userPublication)
 //preciso de um middleware para barrar os usuarios
-applicationRouter.post('/:userPublicationId', IsAuthenticated, authRoles(['contractingArtist', 'onlyArtist']), (req, res) => {
-   return createApplicationController.handle(req, res);
-})
+applicationRouter.post(
+    "/:userPublicationId",
+    IsAuthenticated,
+    authRoles(["contractingArtist", "onlyArtist"]),
+    celebrate({
+        [Segments.PARAMS]: Joi.object().keys({
+            userPublicationId: Joi.string().uuid().required(),
+        }),
+    }),
+    (req, res) => {
+        return createApplicationController.handle(req, res);
+    },
+);
 
 //get all userPublication applications
-applicationRouter.get("/userPublication/:id", IsAuthenticated, authRoles(['contractingArtist', 'onlyContracting']) ,(req, res) => {
-   return getAllArtistApplicationController.handle(req, res);
-})
+applicationRouter.get(
+    "/userPublication/:id",
+    IsAuthenticated,
+    authRoles(["contractingArtist", "onlyContracting"]),
+    (req, res) => {
+        return getAllArtistApplicationController.handle(req, res);
+    },
+);
 
 //accept artist
-applicationRouter.patch("/accept/artist/:userPublicationId", IsAuthenticated, authRoles(['contractingArtist', 'onlyContracting']), 
-celebrate({
-   [Segments.BODY]: Joi.object().keys({
-      artistId: Joi.string().required().messages({
-         "any.required": "Por favor informe o id do artista a ser contrado!"
-      })
-   })
-}),
+applicationRouter.patch(
+    "/accept/artist/:userPublicationId",
+    IsAuthenticated,
+    authRoles(["contractingArtist", "onlyContracting"]),
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            artistId: Joi.string().uuid().required().messages({
+                "any.required": "Por favor informe o id do artista a ser contrado!",
+            }),
+        }),
 
-(req, res) => {
-      return acceptArtistController.handle(req, res); 
-})
-export { applicationRouter }
+        [Segments.PARAMS]: Joi.object().keys({
+            userPublicationId: Joi.string().uuid().required(),
+        }),
+    }),
+
+    (req, res) => {
+        return acceptArtistController.handle(req, res);
+    },
+);
+export { applicationRouter };
+

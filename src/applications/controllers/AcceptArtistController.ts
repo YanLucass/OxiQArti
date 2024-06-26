@@ -1,10 +1,10 @@
-import { AcceptArtistUseCase } from '@applications/useCases/AcceptArtistUseCase';
-import { AppError } from '@shared/errors/AppError';
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
+import { AcceptArtistUseCase } from "@applications/useCases/AcceptArtistUseCase";
+import { AppError } from "@shared/errors/AppError";
+import { Request, Response } from "express";
+import { container } from "tsyringe";
 
 export class AcceptArtistController {
-    async handle(req: Request, res: Response) {
+    async handle(req: Request, res: Response): Promise<Response> {
         try {
             const acceptArtistUseCase = container.resolve(AcceptArtistUseCase);
 
@@ -21,12 +21,16 @@ export class AcceptArtistController {
                 message: `Candidatura aceita, entre em contato com ${artist.name} para acertar `,
             });
         } catch (error) {
-            console.error('Deu erro no AcceptArtistController', error);
             if (error instanceof AppError) {
-                throw error;
+                return res.status(error.statusCode).json({ error: error.message });
             } else {
-                throw new AppError('Erro inesperado ao aceitar um artista', 500);
+                console.log("Erro", error);
+                return res.status(500).json({
+                    error: error,
+                    message: "Erro inesperado ao aceitar um artista. Tente novamente mais tarde!",
+                });
             }
         }
     }
 }
+
