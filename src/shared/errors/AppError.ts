@@ -24,3 +24,15 @@ export class UnauthorizedError extends AppError {
     }
 }
 
+export class UnprocessableEntityError extends AppError {
+    constructor(message: string = "Argumentos faltantes ou ausentes.") {
+        super(message, 422);
+    }
+}
+
+export class ConflictError extends AppError {
+    constructor(message: string = "Argumentos conflitantes.") {
+        super(message, 409);
+    }
+}
+

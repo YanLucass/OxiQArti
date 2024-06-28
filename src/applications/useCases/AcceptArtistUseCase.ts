@@ -25,9 +25,8 @@ export class AcceptArtistUseCase {
         }
 
         //check if userPublicatione exists
-        const userPublication = await this.usersPublicationRepository.findUserPublicationById(
-            "4fee823a-dfe8-48d9-9ce8-38e0a6fd6310",
-        );
+        const userPublication =
+            await this.usersPublicationRepository.findUserPublicationById(userPublicationId);
         if (!userPublication) {
             throw new NotFoundError("Hey! Esse serviço foi apagado ou não existe.");
         }

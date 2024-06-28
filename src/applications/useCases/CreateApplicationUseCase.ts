@@ -44,7 +44,8 @@ export class CreateApplicationUseCase {
         }
 
         // check if user already application to job.
-        // preciso verificar na tabela applications se tem uma mesma userPublication. é so
+        // Check the 'applications' table to see if a record already exists with the same 'userPublication' and 'userId'.
+
         const artistAlreadyApplication = await this.applicationRepository.findRepeatApplication(
             userPublicationId,
             userId,

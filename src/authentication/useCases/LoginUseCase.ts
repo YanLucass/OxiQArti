@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { compare } from "bcryptjs";
-import { AppError } from "@shared/errors/AppError";
+import { NotFoundError, UnauthorizedError } from "@shared/errors/AppError";
 
 //entities
 import { User } from "@users/entities/User";
@@ -15,56 +15,57 @@ import { createUserRefreshToken } from "src/helpers/create-user-RefreshToken";
 
 //LoginParams
 type LoginParams = {
-   email: string;
-   password: string;
+    email: string;
+    password: string;
 };
 
 //Response from LoginUseCase
 type IResponse = {
-   user: User;
-   accessToken: string;
-   refreshToken: string;
+    user: User;
+    accessToken: string;
+    refreshToken: string;
 };
 
 @injectable()
 export class LoginUseCase {
-   constructor(
-      @inject("UsersRepository") private usersRepository: IUsersRepository,
-      @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
-   ) {}
+    constructor(
+        @inject("UsersRepository") private usersRepository: IUsersRepository,
+        @inject("RefreshTokenRepository") private refreshTokenRepository: IRefreshTokenRepository,
+    ) {}
 
-   async execute({ email, password }: LoginParams): Promise<IResponse> {
-      // Check if user is valid.
-      const user = await this.usersRepository.findUserByEmail(email);
-      if (!user) {
-         throw new AppError("Email don't registerd.");
-      }
+    async execute({ email, password }: LoginParams): Promise<IResponse> {
+        // Check if user is valid.
+        const user = await this.usersRepository.findUserByEmail(email);
+        if (!user) {
+            throw new NotFoundError("Email don't registerd.");
+        }
 
-      //case user exists
-      // Compare password
-      const userPasswordMatch = await compare(password, user.password);
+        //case user exists
+        // Compare password
+        const userPasswordMatch = await compare(password, user.password);
 
-      // If passwords don't match, throw an error.
-      if (!userPasswordMatch) throw new AppError("Invalid email / password", 401);
+        // If passwords don't match, throw an error.
+        if (!userPasswordMatch) throw new UnauthorizedError("Invalid email / password");
 
-      // Create access token.
-      const accessToken = createUserAccessToken(user);
-      // Create refresh token.
-      const { refreshToken, expires } = createUserRefreshToken(user);
+        // Create access token.
+        const accessToken = createUserAccessToken(user);
+        // Create refresh token.
+        const { refreshToken, expires } = createUserRefreshToken(user);
 
-      //saveRefreshToken in bd
-      await this.refreshTokenRepository.create({
-         user_id: user.id,
-         refreshToken,
-         valid: true,
-         expires,
-      });
+        //saveRefreshToken in bd
+        await this.refreshTokenRepository.create({
+            user_id: user.id,
+            refreshToken,
+            valid: true,
+            expires,
+        });
 
-      // Return common user information with tokens.
-      return {
-         user: user,
-         accessToken,
-         refreshToken,
-      };
-   }
+        // Return common user information with tokens.
+        return {
+            user: user,
+            accessToken,
+            refreshToken,
+        };
+    }
 }
+

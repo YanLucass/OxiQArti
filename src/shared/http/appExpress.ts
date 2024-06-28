@@ -10,7 +10,7 @@ import "@shared/Container/containers";
 
 //to celebrate
 import { errors } from "celebrate";
-import { tratmentErrors } from "@shared/http/middlewares/tratmentErrorsMiddleware";
+import { tratmentErrors } from "./middlewares/tratmentErrorsMiddleware";
 
 const app = express();
 

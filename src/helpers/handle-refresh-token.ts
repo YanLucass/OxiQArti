@@ -1,8 +1,8 @@
-import { IRefreshTokenRepository } from '@authentication/repositories/IRefreshTokenRepository';
-import { AppError } from '@shared/errors/AppError';
-import { User } from '@users/entities/User';
-import { createUserAccessToken } from './create-user-Access-token';
-import { createUserRefreshToken } from './create-user-RefreshToken';
+import { IRefreshTokenRepository } from "@authentication/repositories/IRefreshTokenRepository";
+import { BadRequestError, UnauthorizedError } from "@shared/errors/AppError";
+import { User } from "@users/entities/User";
+import { createUserAccessToken } from "./create-user-Access-token";
+import { createUserRefreshToken } from "./create-user-RefreshToken";
 // import { PostgresDataSource } from "@shared/typeorm/connect";
 
 type newAccessTokensDTO = {
@@ -22,18 +22,16 @@ export const handleRefreshToken = async ({
     refresh_token,
     refreshTokenRepository,
 }: newAccessTokensDTO): Promise<IResponse> => {
-    let accessToken: string = '';
-    let refreshToken: string = '';
+    let accessToken: string = "";
+    let refreshToken: string = "";
 
     // find refreshToken
     const refreshTokenByToken =
         await refreshTokenRepository.findRefreshTokenByRefreshToken(refresh_token);
     if (!refreshTokenByToken) {
-        throw new AppError('Refresh token invalid', 401);
+        throw new UnauthorizedError("Refresh token invalid");
     }
 
-    // // wrap all operations in a transaction
-    // await PostgresDataSource.transaction(async transactionalEntityManager => {
     //invalidate current refreshToken to create another.
     await refreshTokenRepository.invalidateRefreshToken(refreshTokenByToken);
 
@@ -44,7 +42,7 @@ export const handleRefreshToken = async ({
     // expired if current time > token expires time
     const currentTime = new Date().getTime();
     if (!refreshTokenByToken.valid || currentTime > refreshTokenByToken.expires.getTime()) {
-        throw new AppError('Refresh token is invalid / expired.');
+        throw new BadRequestError("Refresh token is invalid / expiredd.");
     }
 
     // create new access token
