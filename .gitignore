@@ -1,6 +1,8 @@
 /dist
 /node_modules
-
+/data
+src/.scannerwork
+src/
 # Logs
 logs
 *.log

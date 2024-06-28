@@ -1,16 +1,16 @@
 import "express-async-errors";
-import express, {Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 //router
 import { router } from "./routes/";
-import { AppError } from "@shared/errors/AppError";
 
 //container
 import "@shared/Container/containers";
 
 //to celebrate
 import { errors } from "celebrate";
+import { tratmentErrors } from "@shared/http/middlewares/tratmentErrorsMiddleware";
 
 const app = express();
 
@@ -25,26 +25,8 @@ app.use(errors());
 //file static
 app.use(express.static("uploads"));
 
-//middleware to class AppError.
-app.use((error: Error, req: Request, res: Response) => {
-   //our class of erros
-   if (error instanceof AppError) {
-      //return error and statusCode reported in class AppError.
-      
-      return res.status(error.statusCode).json({
-         status: "error",
-         message: error.message,
-      });
-   }
-
-   //case server error
-   console.log(error);
-
-   return res.status(500).json({
-      status: "error",
-      message: "Internal server error",
-   });
-
-});
+//middleware to tratment.
+app.use(tratmentErrors);
 
 export { app };
+

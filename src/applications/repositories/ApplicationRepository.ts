@@ -1,8 +1,8 @@
-import { CreateApplicationDTO, IApplicationRepository } from './IApplicationRepository';
-import { Repository } from 'typeorm';
-import { PostgresDataSource } from '@shared/typeorm/connect';
-import { Applications } from '@applications/entities/Applications';
-import { User } from '@users/entities/User';
+import { CreateApplicationDTO, IApplicationRepository } from "./IApplicationRepository";
+import { Repository } from "typeorm";
+import { PostgresDataSource } from "@shared/typeorm/connect";
+import { Applications } from "@applications/entities/Applications";
+import { User } from "@users/entities/User";
 
 export class ApplicationRepository implements IApplicationRepository {
     private applicationRepository: Repository<Applications>;
@@ -34,7 +34,7 @@ export class ApplicationRepository implements IApplicationRepository {
                 userPublication: { id: userPublicationId },
                 user: { id: userId },
             },
-            relations: ['userPublication', 'user'],
+            relations: ["userPublication", "user"],
         });
     }
 
@@ -44,7 +44,7 @@ export class ApplicationRepository implements IApplicationRepository {
             where: {
                 userPublication: { id: userPublicationId },
             },
-            relations: ['user'],
+            relations: ["user"],
         });
 
         // //return object artist from applications array
@@ -57,12 +57,16 @@ export class ApplicationRepository implements IApplicationRepository {
 
     //delete applications with id
     async rejectAnotherApplications(userPublicationId: string): Promise<void> {
-        await this.applicationRepository
-            .createQueryBuilder()
-            .delete()
-            .from(Applications)
-            .where('userPublicationId = :userPublicationId', { userPublicationId })
-            .execute();
+        try {
+            await this.applicationRepository
+                .createQueryBuilder()
+                .delete()
+                .from(Applications)
+                .where("userPublicationId = :userPublicationId", { userPublicationId })
+                .execute();
+        } catch (error) {
+            console.error("Erro ao rejeitar artistas de uma publicação", error);
+        }
     }
 }
 

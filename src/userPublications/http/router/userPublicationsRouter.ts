@@ -15,35 +15,36 @@ const userPublicationRouter = Router();
 
 //controllers
 const createUserPublicationController = container.resolve(CreateUserPublicationController);
-const getAllUserPublicationController = container.resolve(GetAllUserPublicationController)
+const getAllUserPublicationController = container.resolve(GetAllUserPublicationController);
 
 //create user publication
 userPublicationRouter.post(
-   "/create",
-   upload.array("images", 2),
-   IsAuthenticated,
-   authRoles(['onlyContracting', 'contractingArtist']),
-   celebrate({
-      [Segments.BODY]: Joi.object().keys({
-         title: Joi.string().optional(),
-         description: Joi.string().required().messages({
-            "any.required": "A descrição é obrigatória!",
-         }),
+    "/create",
+    upload.array("images", 2),
+    IsAuthenticated,
+    authRoles(["onlyContracting", "contractingArtist"]),
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            title: Joi.string().optional(),
+            description: Joi.string().required().messages({
+                "any.required": "A descrição é obrigatória!",
+            }),
 
-         service: Joi.string().required().messages({
-            "any.required": "Hey, forneça um servico. Exemplo: Pintura a oléo",
-         }),
-      }),
-   }),
+            service: Joi.string().required().messages({
+                "any.required": "Hey, forneça um servico. Exemplo: Pintura a oléo",
+            }),
+        }),
+    }),
 
-   (req, res) => {
-      return createUserPublicationController.handle(req, res);
-   },
+    (req, res) => {
+        return createUserPublicationController.handle(req, res);
+    },
 );
 
 //get all userPublication
-userPublicationRouter.get('/getAll', (req, res) => { 
-   return getAllUserPublicationController.handle(req, res);
+userPublicationRouter.get("/getAll", (req, res) => {
+    return getAllUserPublicationController.handle(req, res);
 });
 
 export { userPublicationRouter };
+
