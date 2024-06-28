@@ -1,0 +1,5 @@
+{
+    "pattern": "^(feature|bugfix|hotfix|release)\\/([a-z0-9._-]+)$",
+    "errorMsg": "Branch name does not follow the pattern 'type/description', where type is one of (feature, bugfix, hotfix, release) and description contains only lowercase letters, numbers, dots, underscores, and hyphens."
+  }
+  
