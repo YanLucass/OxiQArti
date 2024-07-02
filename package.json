@@ -1,0 +1,67 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "OxiQArti API, para o site ponte de comunicação entre clientes e artistas.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts",
+        "postdocker-up": "sleep 2 && npm run typeorm -- -d ./src/shared/typeorm/connect.ts migration:run",
+        "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+        "docker:start": "docker-compose up -d",
+        "start:dev": "npm run docker:start && npm run postdocker-up && npm run dev",
+        "docker-down": "docker-compose -f docker-compose.yml down",
+        "prepare": "husky",
+        "eslint": "npx eslint src"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/YanLucass/OxiQArti.git"
+    },
+    "author": "Yan Lucas",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/YanLucass/OxiQArti/issues"
+    },
+    "homepage": "https://github.com/YanLucass/OxiQArti#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "celebrate": "^15.0.3",
+        "class-transformer": "^0.5.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.18.2",
+        "express-async-errors": "^3.1.1",
+        "jsonwebtoken": "^9.0.2",
+        "multer": "^1.4.5-lts.1",
+        "pg": "^8.11.3",
+        "reflect-metadata": "^0.2.1",
+        "swagger-ui-express": "^5.0.0",
+        "tsyringe": "^4.8.0",
+        "typeorm": "^0.3.20",
+        "typescript": "^5.3.3",
+        "undefined": "^0.1.0",
+        "uuid": "^9.0.1"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.3.0",
+        "@commitlint/config-conventional": "^19.2.2",
+        "@eslint/js": "^9.4.0",
+        "@types/bcryptjs": "^2.4.6",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^4.17.21",
+        "@types/jsonwebtoken": "^9.0.5",
+        "@types/multer": "^1.4.11",
+        "@types/swagger-ui-express": "^4.1.6",
+        "@types/uuid": "^9.0.8",
+        "branch-name-lint": "^2.1.1",
+        "eslint": "^8.56.0",
+        "globals": "^15.4.0",
+        "husky": "^9.0.11",
+        "prettier": "3.3.2",
+        "ts-node-dev": "^2.0.0",
+        "tsconfig-paths": "^4.2.0",
+        "typescript-eslint": "^7.13.0"
+    }
+}
+
