@@ -1,24 +1,21 @@
-//to typeorm
-import 'reflect-metadata';
-import { app } from './appExpress';
+import "reflect-metadata";
+// Renaming variable app to server
+import { app as server } from "./appExpress";
 
-//swagger
-import swaggerUi from 'swagger-ui-express';
-import swaggerFile from '../../swagger.json';
+// Organizing imports
+import swaggerUi from "swagger-ui-express";
+import swaggerFile from "../../swagger.json";
+import { PostgresDataSource } from "../typeorm/connect";
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+server.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-import { PostgresDataSource } from '../typeorm/connect';
-
-//create connection
+// Initializing connection to PostgreSQL.
 PostgresDataSource.initialize()
     .then(() => {
-        //conection successful
-        app.listen(process.env.PORT || 5000, () => {
-            console.log(`Server started on port ${process.env.PORT || 5000}`);
-        });
+        console.log(`Server started on port ${process.env.PORT || 5000}`);
+        server.listen(process.env.PORT || 5000);
     })
     .catch(err => {
-        console.log('Erro ao se conectar com o postgres Carai', err);
+        console.error("Error connecting to PostgreSQL", err);
     });
 
