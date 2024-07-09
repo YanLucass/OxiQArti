@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import multer from "multer";
 import { QueryFailedError } from "typeorm";
+import logger from "@shared/errors/logger";
 
 export const tratmentErrors = (
     error: Error & AppError,
@@ -27,8 +28,7 @@ export const tratmentErrors = (
     } else if (error instanceof QueryFailedError) {
         console.error("Erro ");
     } else {
-        console.error("Erro inesperado na aplicação: ", error);
-        console.error(error.stack);
+        logger.error("Erro inesperado na aplicação:", error);
         return res.status(500).json({
             statusCode: 500,
             message: "International server error",
