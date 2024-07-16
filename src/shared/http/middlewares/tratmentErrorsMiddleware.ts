@@ -18,6 +18,7 @@ export const tratmentErrors = (
             message: error.message,
         });
     } else if (error instanceof multer.MulterError) {
+        logger.error("Erro no multer", error);
         if (error.code === "LIMIT_UNEXPECTED_FILE") {
             return res.status(401).json({
                 statusCode: 401,
@@ -26,7 +27,7 @@ export const tratmentErrors = (
             });
         }
     } else if (error instanceof QueryFailedError) {
-        console.error("Erro ");
+        logger.error("Erro de banco de dados", error);
     } else {
         logger.error("Erro inesperado na aplicação:", error);
         return res.status(500).json({
