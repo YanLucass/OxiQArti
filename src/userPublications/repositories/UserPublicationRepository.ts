@@ -1,12 +1,12 @@
-import { UserPublication } from '@userPublications/entities/UserPublication';
+import { UserPublication } from "@userPublications/entities/UserPublication";
 import {
     CreateUserPublicationDTO,
     IUserPublicationRepository,
     ListUserPublicationPaginateReturn,
     GetAllPaginateParams,
-} from './IUserPublicationRepository';
-import { Repository } from 'typeorm';
-import { PostgresDataSource } from '@shared/typeorm/connect';
+} from "./IUserPublicationRepository";
+import { Repository } from "typeorm";
+import { PostgresDataSource } from "@shared/typeorm/connect";
 
 export class UsersPublicationRepository implements IUserPublicationRepository {
     userPublicationRepository: Repository<UserPublication>;
@@ -63,7 +63,7 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
     async findUserPublicationById(id: string): Promise<UserPublication | null> {
         const userPublication = await this.userPublicationRepository.findOne({
             where: { id: id },
-            relations: ['user'],
+            relations: ["user"],
         });
 
         return userPublication;
@@ -85,9 +85,14 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
             userPublication.hiredArtist = artistId;
             await this.save(userPublication);
         } catch (error) {
-            console.error('Erro ao inserir hiredArtist em userPublication', error);
+            console.error("Erro ao inserir hiredArtist em userPublication", error);
             throw Error;
         }
+    }
+
+    async cancelHiredArtistUserPublication(userPublication: UserPublication): Promise<void> {
+        userPublication.hiredArtist = null;
+        await this.save(userPublication);
     }
 }
 
