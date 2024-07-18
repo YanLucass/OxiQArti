@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import multer from "multer";
 import { QueryFailedError } from "typeorm";
+import logger from "@shared/errors/logger";
 
 export const tratmentErrors = (
     error: Error & AppError,
@@ -17,6 +18,7 @@ export const tratmentErrors = (
             message: error.message,
         });
     } else if (error instanceof multer.MulterError) {
+        logger.error("Erro no multer", error);
         if (error.code === "LIMIT_UNEXPECTED_FILE") {
             return res.status(401).json({
                 statusCode: 401,
@@ -25,10 +27,9 @@ export const tratmentErrors = (
             });
         }
     } else if (error instanceof QueryFailedError) {
-        console.error("Erro ");
+        logger.error("Erro de banco de dados", error);
     } else {
-        console.error("Erro inesperado na aplicação: ", error);
-        console.error(error.stack);
+        logger.error("Erro inesperado na aplicação:", error);
         return res.status(500).json({
             statusCode: 500,
             message: "International server error",
