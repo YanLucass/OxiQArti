@@ -25,6 +25,7 @@
     },
     "homepage": "https://github.com/YanLucass/OxiQArti#readme",
     "dependencies": {
+        "@types/winston": "^2.4.4",
         "bcryptjs": "^2.4.3",
         "celebrate": "^15.0.3",
         "class-transformer": "^0.5.1",
@@ -67,4 +68,3 @@
         "typescript-eslint": "^7.13.0"
     }
 }
-

@@ -20,17 +20,24 @@ const app = express();
 //traffic messages
 app.use(express.json());
 
+//define router
+
+morganBody(app, {
+    filterParameters: ["password"],
+}); //morgan for console
+
+//morgan to save request in files.
 const logPath = path.join(__dirname, "./logs", `${moment().format("YYYY-MM-DD")}httpRequests$.log`);
 
 const logStream = fs.createWriteStream(logPath, { flags: "a" });
-
-//define router
-
 morganBody(app, {
     noColors: true,
     stream: logStream,
     filterParameters: ["password"],
 });
+
+//define router
+
 app.use(router);
 
 //case celebrate detected some error

@@ -1,5 +1,5 @@
 import { BadRequestError, NotFoundError, UnauthorizedError } from "@shared/errors/AppError";
-import logger from "@shared/errors/logger.js";
+import logger from "@shared/errors/logger";
 import { IUserPublicationRepository } from "@userPublications/repositories/IUserPublicationRepository";
 import { inject, injectable } from "tsyringe";
 
@@ -24,7 +24,8 @@ export class CancelHiredArtistUseCase {
         //check if users is owner of the service.
         if (userId !== userPublication.user.id) {
             logger.warn(
-                `Usuário não autorizado tentando cancelar um artista contratado de um serviço UserPublicationId: ${userPublicationId}`,
+                `Usuário não autorizado tentando cancelar um artista contratado de
+                 um serviço UserPublicationId: ${userPublicationId}`,
             );
             throw new UnauthorizedError("Apenas o dono do serviço pode cancelar um artista");
         }
