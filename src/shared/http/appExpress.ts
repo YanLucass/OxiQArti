@@ -14,11 +14,12 @@ import morganBody from "morgan-body";
 import path from "path";
 import moment from "moment";
 import fs from "fs";
+import cors from "cors";
 
 const app = express();
-
 //traffic messages
 app.use(express.json());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 //define router
 
@@ -44,7 +45,8 @@ app.use(router);
 app.use(errors());
 
 //file static
-app.use(express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "../../../uploads")));
+console.log(path.join(__dirname, "../../../uploads"));
 
 //middleware to tratment.
 app.use(tratmentErrors);

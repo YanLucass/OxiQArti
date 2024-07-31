@@ -44,7 +44,9 @@ export class UsersPublicationRepository implements IUserPublicationRepository {
     }: GetAllPaginateParams): Promise<ListUserPublicationPaginateReturn> {
         //criar query,  desestruturar userPublications a quantidade de users publication existente
         const [userPublications, count] = await this.userPublicationRepository
-            .createQueryBuilder()
+            .createQueryBuilder("userPublication")
+            .leftJoinAndSelect("userPublication.images", "publicationImage")
+            .leftJoinAndSelect("userPublication.user", "user")
             .skip(skip)
             .take(take)
             .getManyAndCount(); //get the records and the total count in the table. Return thems in an array
