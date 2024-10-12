@@ -4,7 +4,7 @@ echo 'Fazendo verificações de código com sonar-scanner. Certifique-se que o s
 sh run-sonar.sh
 echo 'Análise concluida com sucesso!'
 
-echo 'Chegando erros no código antes do commit :)'
+echo 'Checando erros no código antes do commit :)'
 npx eslint src
 
 
