@@ -23,7 +23,7 @@ export class CreateUserPublicationUseCase {
     async execute(
         { title, description, service }: CreateUserPublication,
         userId: string,
-        reqFiles,
+        reqFiles: unknown,
     ) {
         //create user publication
         //Check if the user onwer of id exits to pass a correct id for "create" from repository.

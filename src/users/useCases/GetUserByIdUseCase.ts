@@ -1,7 +1,8 @@
+import "reflect-metadata";
+import { inject, injectable } from "tsyringe";
 import { NotFoundError } from "@shared/errors/AppError";
 import logger from "@shared/errors/logger";
 import { IUsersRepository } from "@users/repositories/IUsersRepository";
-import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class GetUserByIdUseCase {
